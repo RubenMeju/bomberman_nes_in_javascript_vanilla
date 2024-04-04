@@ -14,6 +14,7 @@ class Player {
     this.direction = "right";
 
     this.bombs = [];
+    this.explosions = [];
 
     // Frames de animación para cada dirección
     this.animationFrames = {
@@ -47,13 +48,6 @@ class Player {
   }
 
   update() {
-    //dibujar las bombas
-    if (player.bombs.length > 0) {
-      this.bombs.forEach((bomba) => {
-        bomba.draw(bomba.x, bomba.y);
-      });
-    }
-
     this.movement();
     this.draw();
   }
@@ -183,5 +177,31 @@ class Player {
     console.log("colocar bomba");
     const bomb = new Bomb(player.x, player.y);
     this.bombs.push(bomb);
+    setTimeout(() => {
+      this.destroyBomb(bomb); // Pasar la bomba como parámetro
+      console.log("meju");
+    }, 2000);
+  }
+
+  destroyBomb(bomb) {
+    // Recibir la bomba como parámetro
+    const bombIndex = this.bombs.indexOf(bomb); // Usar this.bombs para acceder al arreglo de bombas
+    console.log("bombs index: " + bombIndex);
+    if (bombIndex !== -1) {
+      this.bombs.splice(bombIndex, 1); // Usar this.bombs para modificar el arreglo de bombas
+    }
+    //creo la explosion
+    const explosion = new Explosion(bomb.x, bomb.y);
+    //añado la explosion al array
+    this.explosions.push(explosion);
+    console.log("explosion: ", this.explosions.length);
+
+    setTimeout(() => {
+      const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de bombas
+      console.log("explosions index: " + explosionIndex);
+      if (explosionIndex !== -1) {
+        this.explosions.splice(explosionIndex, 1); // Usar this.bombs para modificar el arreglo de bombas
+      }
+    }, 500);
   }
 }
