@@ -14,19 +14,18 @@ canvas.height = rows * cellSize;
 canvas.style.backgroundColor = "#2e8b00";
 
 const player = new Player(cellSize, cellSize);
-//const bomb = new Bomb();
-//const explosion = new Explosion(192, 320);
 
 function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 function loop() {
+  //limpiar canvas
   clearCanvas();
-  //  explosion.draw();
-  // console.log(bomb.bombs);
+
+  //dibujar nivel
   drawLevel();
-  console.log(player.bombs);
-  // bomb.draw();
+
+  //actualizar jugador
   player.update();
 
   window.requestAnimationFrame(loop);
