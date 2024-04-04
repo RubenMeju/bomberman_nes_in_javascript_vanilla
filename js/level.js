@@ -48,3 +48,25 @@ function drawLevel() {
     }
   }
 }
+
+// para desarrollo (muestra los px de cada celda)
+function drawBorderCell() {
+  // Coordenadas del cuadrado
+  for (let i = 0; i < level.length; i++) {
+    for (let j = 0; j < level[i].length; j++) {
+      const posX = j * cellSize;
+      const posY = i * cellSize;
+      // Dibujar el borde del cuadrado
+      ctx.beginPath();
+      ctx.moveTo(posX, posY);
+      ctx.lineTo(posX + cellSize, posY);
+      ctx.lineTo(posX + cellSize, posY + cellSize);
+      ctx.lineTo(posX, posY + cellSize);
+      ctx.closePath(); // Cerrar el camino
+      ctx.stroke(); // Dibujar el borde
+
+      // Mostrar coordenadas de la celda
+      ctx.fillText(`(${cellSize * j}, ${cellSize * i})`, posX + 5, posY + 15); // Ajusta la posición del texto según tu preferencia
+    }
+  }
+}
