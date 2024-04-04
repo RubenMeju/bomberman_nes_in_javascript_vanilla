@@ -174,8 +174,11 @@ class Player {
   }
 
   placeBomb() {
-    console.log("colocar bomba");
-    const bomb = new Bomb(player.x, player.y);
+    let cellX = Math.floor(this.x / cellSize); // Calcular la celda actual en el eje X
+    let cellY = Math.floor(this.y / cellSize); // Calcular la celda actual en el eje Y
+    console.log(cellX * cellSize, cellY * cellSize);
+
+    const bomb = new Bomb(cellX * cellSize, cellY * cellSize);
     this.bombs.push(bomb);
     setTimeout(() => {
       this.destroyBomb(bomb); // Pasar la bomba como parámetro
@@ -186,7 +189,6 @@ class Player {
   destroyBomb(bomb) {
     // Recibir la bomba como parámetro
     const bombIndex = this.bombs.indexOf(bomb); // Usar this.bombs para acceder al arreglo de bombas
-    console.log("bombs index: " + bombIndex);
     if (bombIndex !== -1) {
       this.bombs.splice(bombIndex, 1); // Usar this.bombs para modificar el arreglo de bombas
     }
@@ -194,13 +196,14 @@ class Player {
     const explosion = new Explosion(bomb.x, bomb.y);
     //añado la explosion al array
     this.explosions.push(explosion);
-    console.log("explosion: ", this.explosions.length);
 
     setTimeout(() => {
-      const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de bombas
-      console.log("explosions index: " + explosionIndex);
+      const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de explosiones
       if (explosionIndex !== -1) {
-        this.explosions.splice(explosionIndex, 1); // Usar this.bombs para modificar el arreglo de bombas
+        this.explosions.splice(explosionIndex, 1); // Usar this.explosions para modificar el arreglo de explosiones
+
+        //eliminar los muros colindantes
+        destroyWall(bomb);
       }
     }, 500);
   }
