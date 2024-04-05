@@ -52,12 +52,6 @@ function drawLevel() {
 function destroyWall(explosion) {
   let cellX = Math.floor(explosion.x / cellSize); //posicion X de la bomba
   let cellY = Math.floor(explosion.y / cellSize); // posicion Y de la bomba
-  //console.log(cellY, cellX);
-
-  // Verificar celdas adyacentes
-  // Se asume que level es una matriz definida previamente que contiene el mapa del juego
-  // Donde 2 representa una pared
-  // Se asume que cellSize es el tamaño de una celda en el mapa
 
   // Verificar la celda arriba
   if (cellY > 0 && level[cellY - 1][cellX] === 2) {
@@ -82,6 +76,50 @@ function destroyWall(explosion) {
     console.log("La celda a la derecha es una pared.");
     level[cellY][cellX + 1] = 0;
   }
+}
+
+let frameX = 16;
+let frameY = 16;
+// Frames de animación
+const animationFrames = [
+  { x: 16 * 5, y: 16 * 3 },
+  { x: 16 * 6, y: 16 * 3 },
+  { x: 16 * 7, y: 16 * 3 },
+  { x: 16 * 8, y: 16 * 3 },
+  { x: 16 * 9, y: 16 * 3 },
+  { x: 16 * 10, y: 16 * 3 },
+];
+// Índice de frame actual en la animación
+let currentFrameIndex = 0;
+// Contador de frames para la animación
+let frameCount = 0;
+// Velocidad de la animación
+let animationSpeed = 10;
+
+function drawFireWall() {
+  ctx.drawImage(
+    imgSprites,
+    frameX,
+    frameY,
+    16,
+    16,
+    64, //this.x,
+    192, //this.y,
+    cellSize,
+    cellSize
+  );
+  // Actualizar el frame de animación
+  frameCount++;
+
+  if (frameCount >= animationSpeed) {
+    frameCount = 0;
+    currentFrameIndex = (currentFrameIndex + 1) % 6; // 3 es el número de frames de animación para cada dirección
+  }
+
+  // Seleccionar el frame actual basado en la dirección
+  frameX = animationFrames[currentFrameIndex].x;
+  frameY = animationFrames[currentFrameIndex].y;
+  console.log(frameX, frameY);
 }
 
 // para desarrollo (muestra los px de cada celda)
