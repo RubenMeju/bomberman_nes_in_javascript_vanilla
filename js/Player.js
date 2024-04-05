@@ -69,92 +69,64 @@ class Player {
   }
 
   movement() {
-    if (
-      this.rightPress &&
-      this.direction === "right" &&
-      this.x < canvas.width - cellSize &&
-      !this.isCollision()
-    ) {
-      this.animate("right");
-      this.x += this.speed;
-    } else if (
-      this.leftPress &&
-      this.direction === "left" &&
-      this.x > cellSize &&
-      !this.isCollision()
-    ) {
-      this.animate("left");
-      this.x -= this.speed;
-    } else if (
-      this.upPress &&
-      this.direction === "up" &&
-      this.y > cellSize &&
-      !this.isCollision()
-    ) {
-      this.animate("up");
-      this.y -= this.speed;
-    } else if (
-      this.downPress &&
-      this.direction === "down" &&
-      this.y < canvas.height - cellSize * 2 &&
-      !this.isCollision()
-    ) {
-      this.animate("down");
-      this.y += this.speed;
+    console.log("Dirección actual:", this.direction);
+
+    let newPos = { x: this.x, y: this.y }; // Nueva posición del jugador
+    let isMoving = false; // Variable para rastrear si el jugador se está moviendo
+
+    if (this.rightPress && this.direction === "right") {
+      newPos.x += this.speed;
+      isMoving = true;
+    } else if (this.leftPress && this.direction === "left") {
+      newPos.x -= this.speed;
+      isMoving = true;
+    } else if (this.upPress && this.direction === "up") {
+      newPos.y -= this.speed;
+      isMoving = true;
+    } else if (this.downPress && this.direction === "down") {
+      newPos.y += this.speed;
+      isMoving = true;
+    }
+
+    if (!this.isCollision(newPos.x, newPos.y)) {
+      console.log("No hay colisión en la nueva posición. Moviendo...");
+      this.x = newPos.x;
+      this.y = newPos.y;
+      if (isMoving) {
+        this.animate(this.direction); // Animar solo si el jugador se está moviendo
+      }
+    } else {
+      console.log("¡Colisión detectada!");
     }
   }
 
-  isCollision() {
-    let cellX = Math.floor(this.x / cellSize); // Calcular la celda actual en el eje X
-    let cellY = Math.floor(this.y / cellSize); // Calcular la celda actual en el eje Y
+  isCollision(posX, posY) {
+    // Calcular los límites del área del jugador en la nueva posición
+    let jugadorLeft = posX;
+    let jugadorRight = posX + cellSize;
+    let jugadorTop = posY;
+    let jugadorBottom = posY + cellSize;
 
-    // Calcular las coordenadas de las celdas adyacentes en las cuatro direcciones
-    let cellRightX = cellX + 1;
-    let cellLeftX = cellX - 1;
-    let cellUpY = cellY - 1;
-    let cellDownY = cellY + 1;
+    // Verificar colisión con cada pared
+    for (let i = 0; i < walls.length; i++) {
+      // Calcular los límites del área de la pared
+      let paredLeft = walls[i].x;
+      let paredRight = walls[i].x + cellSize;
+      let paredTop = walls[i].y;
+      let paredBottom = walls[i].y + cellSize;
 
-    // Calcular la posición final del jugador en cada dirección
-    let posFinalCellRight = this.x + cellSize;
-    let posFinalCellLeft = this.x - this.speed; // Corregir el cálculo de la posición final en la dirección "left"
-    let posFinalCellUp = this.y - this.speed; // Corregir el cálculo de la posición final en la dirección "up"
-    let posFinalCellDown = this.y + cellSize;
-
-    // Verificar colisión en la dirección derecha
-    if (
-      this.direction === "right" &&
-      posFinalCellRight > (cellX + 1) * cellSize
-    ) {
-      if (level[cellY][cellRightX] === 1 || level[cellY][cellRightX] === 2) {
+      // Verificar si hay intersección entre el área del jugador y el área de la pared
+      if (
+        jugadorRight > paredLeft &&
+        jugadorLeft < paredRight &&
+        jugadorBottom > paredTop &&
+        jugadorTop < paredBottom
+      ) {
+        console.log("Colisión detectada");
         return true;
       }
     }
 
-    // Verificar colisión en la dirección izquierda
-    if (this.direction === "left" && posFinalCellLeft < cellX * cellSize) {
-      if (level[cellY][cellLeftX] === 1 || level[cellY][cellLeftX] === 2) {
-        return true;
-      }
-    }
-
-    // Verificar colisión en la dirección arriba
-    if (this.direction === "up" && posFinalCellUp < cellY * cellSize) {
-      if (level[cellUpY][cellX] === 1 || level[cellUpY][cellX] === 2) {
-        return true;
-      }
-    }
-
-    // Verificar colisión en la dirección abajo
-    if (
-      this.direction === "down" &&
-      posFinalCellDown > (cellY + 1) * cellSize
-    ) {
-      if (level[cellDownY][cellX] === 1 || level[cellDownY][cellX] === 2) {
-        return true;
-      }
-    }
-
-    // Si no hay colisión en ninguna dirección, retornar false
     return false;
   }
 
@@ -176,13 +148,12 @@ class Player {
   placeBomb() {
     let cellX = Math.floor(this.x / cellSize); // Calcular la celda actual en el eje X
     let cellY = Math.floor(this.y / cellSize); // Calcular la celda actual en el eje Y
-    console.log(cellX * cellSize, cellY * cellSize);
+    //console.log(cellX * cellSize, cellY * cellSize);
 
     const bomb = new Bomb(cellX * cellSize, cellY * cellSize);
     this.bombs.push(bomb);
     setTimeout(() => {
       this.destroyBomb(bomb); // Pasar la bomba como parámetro
-      console.log("meju");
     }, 2000);
   }
 
@@ -196,8 +167,11 @@ class Player {
     const explosion = new Explosion(bomb.x, bomb.y);
     //añado la explosion al array
     this.explosions.push(explosion);
+
     //eliminar los muros colindantes
-    destroyWall(bomb);
+    const wall = new Wall();
+    wall.destroyWall(bomb.x, bomb.y);
+
     setTimeout(() => {
       const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de explosiones
       if (explosionIndex !== -1) {
