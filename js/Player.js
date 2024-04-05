@@ -196,14 +196,12 @@ class Player {
     const explosion = new Explosion(bomb.x, bomb.y);
     //añado la explosion al array
     this.explosions.push(explosion);
-
+    //eliminar los muros colindantes
+    destroyWall(bomb);
     setTimeout(() => {
       const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de explosiones
       if (explosionIndex !== -1) {
         this.explosions.splice(explosionIndex, 1); // Usar this.explosions para modificar el arreglo de explosiones
-
-        //eliminar los muros colindantes
-        destroyWall(bomb);
       }
     }, 500);
   }
