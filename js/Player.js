@@ -69,7 +69,7 @@ class Player {
   }
 
   movement() {
-    console.log("Dirección actual:", this.direction);
+    //console.log("Dirección actual:", this.direction);
 
     let newPos = { x: this.x, y: this.y }; // Nueva posición del jugador
     let isMoving = false; // Variable para rastrear si el jugador se está moviendo
@@ -89,14 +89,14 @@ class Player {
     }
 
     if (!this.isCollision(newPos.x, newPos.y)) {
-      console.log("No hay colisión en la nueva posición. Moviendo...");
+      // console.log("No hay colisión en la nueva posición. Moviendo...");
       this.x = newPos.x;
       this.y = newPos.y;
       if (isMoving) {
         this.animate(this.direction); // Animar solo si el jugador se está moviendo
       }
     } else {
-      console.log("¡Colisión detectada!");
+      // console.log("¡Colisión detectada!");
     }
   }
 

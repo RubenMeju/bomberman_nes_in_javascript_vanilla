@@ -73,14 +73,45 @@ class Wall {
   }
 
   destroyWall(x, y) {
-    console.log("Eliminar el muro", x, y);
-
-    // Buscar la pared con las coordenadas (x, y)
+    // x, y son las coordenadas de la bomba
+    console.log(walls);
+    // Buscar y eliminar la pared a la derecha de la bomba
     for (let i = 0; i < walls.length; i++) {
       if (walls[i].x === x + cellSize && walls[i].y === y) {
-        console.log("Pared encontrada en el índice:", i);
-        walls.splice(i, 1); // Eliminar la pared del arreglo
-        break; // Salir del bucle después de eliminar la pared
+        if (walls[i].typeWall === 2) {
+          walls.splice(i, 1); // Eliminar la pared del arreglo
+          break; // Salir del bucle después de eliminar la pared
+        }
+      }
+    }
+
+    // Buscar y eliminar la pared a la izquierda de la bomba
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i].x === x - cellSize && walls[i].y === y) {
+        if (walls[i].typeWall === 2) {
+          walls.splice(i, 1); // Eliminar la pared del arreglo
+          break; // Salir del bucle después de eliminar la pared
+        }
+      }
+    }
+
+    // Buscar y eliminar la pared arriba de la bomba
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i].x === x && walls[i].y === y - cellSize) {
+        if (walls[i].typeWall === 2) {
+          walls.splice(i, 1); // Eliminar la pared del arreglo
+          break; // Salir del bucle después de eliminar la pared
+        }
+      }
+    }
+
+    // Buscar y eliminar la pared abajo de la bomba
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i].x === x && walls[i].y === y + cellSize) {
+        if (walls[i].typeWall === 2) {
+          walls.splice(i, 1); // Eliminar la pared del arreglo
+          break; // Salir del bucle después de eliminar la pared
+        }
       }
     }
   }
