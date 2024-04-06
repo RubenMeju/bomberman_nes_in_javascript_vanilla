@@ -2,6 +2,7 @@ class Player {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.size = 52; // tamaño del jugador en el canvas
     // posiciones para seleccionar los frames del sprite
     this.frameX = 0;
     this.frameY = 0;
@@ -53,16 +54,17 @@ class Player {
   }
 
   draw() {
+    // Dibujar la imagen del sprite en el canvas
     ctx.drawImage(
-      imgSprites,
-      this.frameX,
-      this.frameY,
-      16,
-      16,
-      this.x,
-      this.y,
-      cellSize,
-      cellSize
+      imgSprites, // Imagen de sprites que se utilizará para dibujar
+      this.frameX, // Coordenada X del primer píxel del frame en la imagen de sprites
+      this.frameY, // Coordenada Y del primer píxel del frame en la imagen de sprites
+      16, // Ancho del frame en la imagen de sprites
+      16, // Alto del frame en la imagen de sprites
+      this.x, // Posición X donde se dibujará el frame en el canvas
+      this.y, // Posición Y donde se dibujará el frame en el canvas
+      this.size, // Ancho del frame en el canvas (tamaño de la celda)
+      this.size // Alto del frame en el canvas (tamaño de la celda)
     );
   }
 
@@ -101,9 +103,9 @@ class Player {
   isCollision(posX, posY) {
     // Calcular los límites del área del jugador en la nueva posición
     let jugadorLeft = posX;
-    let jugadorRight = posX + cellSize;
+    let jugadorRight = posX + this.size;
     let jugadorTop = posY;
-    let jugadorBottom = posY + cellSize;
+    let jugadorBottom = posY + this.size;
 
     // Verificar colisión con cada pared
     for (let i = 0; i < walls.length; i++) {
