@@ -20,6 +20,9 @@ function loop() {
   //dibujar nivel
   drawLevel();
 
+  //dibujar las coordenadas (para desarrollo)
+  drawBorderCell();
+
   //dibujar las bombas
   if (player.bombs.length > 0) {
     player.bombs.forEach((bomb) => {

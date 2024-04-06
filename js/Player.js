@@ -64,8 +64,6 @@ class Player {
       cellSize,
       cellSize
     );
-
-    drawBorderCell();
   }
 
   movement() {
