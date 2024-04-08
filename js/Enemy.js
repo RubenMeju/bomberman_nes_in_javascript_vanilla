@@ -41,9 +41,6 @@ class Enemy {
     this.move();
     this.draw();
     this.animate(this.direction);
-    setInterval(() => {
-      this.changeDirectionRandomly();
-    }, 3000);
   }
 
   draw() {
