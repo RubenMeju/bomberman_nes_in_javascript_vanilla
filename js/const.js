@@ -7,7 +7,8 @@ const columns = 25;
 const rows = 13;
 let walls = [];
 
-const enemies = 4;
+let enemies = [];
+let totalEnemies = 6;
 
 canvas.width = columns * cellSize;
 canvas.height = rows * cellSize;
