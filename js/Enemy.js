@@ -3,7 +3,7 @@ class Enemy {
     this.x = x;
     this.y = y;
     this.size = cellSize;
-    this.speed = 2;
+    this.speed = 1;
     this.direction = "down";
 
     // Frames de animación para cada dirección
@@ -84,7 +84,7 @@ class Enemy {
       // Si el enemigo está en el centro de una celda, verificamos si puede seguir en la dirección actual
       switch (this.direction) {
         case "right":
-          if (!this.isCollisionRight()) {
+          if (!this.isCollision()) {
             this.x += this.speed;
             isMoving = true;
           } else {
@@ -92,7 +92,7 @@ class Enemy {
           }
           break;
         case "left":
-          if (!this.isCollisionLeft()) {
+          if (!this.isCollision()) {
             this.x -= this.speed;
             isMoving = true;
           } else {
@@ -100,7 +100,7 @@ class Enemy {
           }
           break;
         case "up":
-          if (!this.isCollisionUp()) {
+          if (!this.isCollision()) {
             this.y -= this.speed;
             isMoving = true;
           } else {
@@ -108,7 +108,7 @@ class Enemy {
           }
           break;
         case "down":
-          if (!this.isCollisionDown()) {
+          if (!this.isCollision()) {
             this.y += this.speed;
             isMoving = true;
           } else {
@@ -158,119 +158,63 @@ class Enemy {
     }
   }
 
-  isCollisionRight() {
-    // Calcular los límites del área del enemigo en la nueva posición si se mueve hacia la derecha
+  isCollision() {
+    let enemyLeft = this.x;
     let enemyRight = this.x + this.size;
     let enemyTop = this.y;
     let enemyBottom = this.y + this.size;
 
-    // Verificar colisión con cada pared
     for (let i = 0; i < walls.length; i++) {
-      // Calcular los límites del área de la pared
       let wallLeft = walls[i].x;
       let wallRight = walls[i].x + cellSize;
       let wallTop = walls[i].y;
       let wallBottom = walls[i].y + cellSize;
 
-      // Verificar si hay intersección entre el área del enemigo y el área de la pared
-      if (
-        enemyRight + this.speed > wallLeft &&
-        this.x < wallRight &&
-        enemyBottom > wallTop &&
-        enemyTop < wallBottom
-      ) {
-        console.log("Enemy Colisión detectada hacia la derecha");
-        return true; // Se detectó una colisión hacia la derecha
+      // Verificar si hay colisión en la dirección específica
+      switch (this.direction) {
+        case "left":
+          if (
+            enemyLeft - this.speed < wallRight &&
+            this.x > wallLeft &&
+            enemyBottom > wallTop &&
+            enemyTop < wallBottom
+          ) {
+            return true;
+          }
+          break;
+        case "right":
+          if (
+            enemyRight + this.speed > wallLeft &&
+            this.x < wallRight &&
+            enemyBottom > wallTop &&
+            enemyTop < wallBottom
+          ) {
+            return true;
+          }
+          break;
+        case "up":
+          if (
+            enemyTop - this.speed < wallBottom &&
+            this.y > wallTop &&
+            enemyRight > wallLeft &&
+            enemyLeft < wallRight
+          ) {
+            return true;
+          }
+          break;
+        case "down":
+          if (
+            enemyBottom + this.speed > wallTop &&
+            this.y < wallBottom &&
+            enemyRight > wallLeft &&
+            enemyLeft < wallRight
+          ) {
+            return true;
+          }
+          break;
       }
     }
 
-    return false; // No se detectaron colisiones hacia la derecha
-  }
-
-  isCollisionLeft() {
-    // Calcular los límites del área del enemigo en la nueva posición si se mueve hacia la izquierda
-    let enemyLeft = this.x;
-    let enemyTop = this.y;
-    let enemyBottom = this.y + this.size;
-
-    // Verificar colisión con cada pared
-    for (let i = 0; i < walls.length; i++) {
-      // Calcular los límites del área de la pared
-      let wallLeft = walls[i].x;
-      let wallRight = walls[i].x + cellSize;
-      let wallTop = walls[i].y;
-      let wallBottom = walls[i].y + cellSize;
-
-      // Verificar si hay intersección entre el área del enemigo y el área de la pared
-      if (
-        enemyLeft - this.speed < wallRight &&
-        this.x > wallLeft &&
-        enemyBottom > wallTop &&
-        enemyTop < wallBottom
-      ) {
-        console.log("Enemy Colisión detectada hacia la izquierda");
-        return true; // Se detectó una colisión hacia la izquierda
-      }
-    }
-
-    return false; // No se detectaron colisiones hacia la izquierda
-  }
-
-  isCollisionUp() {
-    // Calcular los límites del área del enemigo en la nueva posición si se mueve hacia arriba
-    let enemyTop = this.y;
-    let enemyLeft = this.x;
-    let enemyRight = this.x + this.size;
-
-    // Verificar colisión con cada pared
-    for (let i = 0; i < walls.length; i++) {
-      // Calcular los límites del área de la pared
-      let wallLeft = walls[i].x;
-      let wallRight = walls[i].x + cellSize;
-      let wallTop = walls[i].y;
-      let wallBottom = walls[i].y + cellSize;
-
-      // Verificar si hay intersección entre el área del enemigo y el área de la pared
-      if (
-        enemyTop - this.speed < wallBottom &&
-        this.y > wallTop &&
-        enemyRight > wallLeft &&
-        enemyLeft < wallRight
-      ) {
-        console.log("Enemy Colisión detectada hacia arriba");
-        return true; // Se detectó una colisión hacia arriba
-      }
-    }
-
-    return false; // No se detectaron colisiones hacia arriba
-  }
-
-  isCollisionDown() {
-    // Calcular los límites del área del enemigo en la nueva posición si se mueve hacia abajo
-    let enemyBottom = this.y + this.size;
-    let enemyLeft = this.x;
-    let enemyRight = this.x + this.size;
-
-    // Verificar colisión con cada pared
-    for (let i = 0; i < walls.length; i++) {
-      // Calcular los límites del área de la pared
-      let wallLeft = walls[i].x;
-      let wallRight = walls[i].x + cellSize;
-      let wallTop = walls[i].y;
-      let wallBottom = walls[i].y + cellSize;
-
-      // Verificar si hay intersección entre el área del enemigo y el área de la pared
-      if (
-        enemyBottom + this.speed > wallTop &&
-        this.y < wallBottom &&
-        enemyRight > wallLeft &&
-        enemyLeft < wallRight
-      ) {
-        console.log("Enemy Colisión detectada hacia abajo");
-        return true; // Se detectó una colisión hacia abajo
-      }
-    }
-
-    return false; // No se detectaron colisiones hacia abajo
+    return false;
   }
 }
