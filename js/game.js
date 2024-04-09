@@ -35,7 +35,7 @@ function loop() {
     drawLevel();
 
     //dibujar las coordinates (para desarrollo)
-    //drawBorderCell();
+    drawBorderCell();
     //dibujar las bombas
     if (player.bombs.length > 0) {
       player.bombs.forEach((bomb) => {

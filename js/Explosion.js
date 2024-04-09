@@ -154,7 +154,7 @@ class Explosion {
     let playerRight = player.x + player.size;
     let playerTop = player.y;
     let playerBottom = player.y + player.size;
-
+    console.log(playerTop);
     // Verificar colisión con cada explosion
     for (let i = 0; i < player.explosions.length; i++) {
       // Calcular los límites del área de la explosion
@@ -164,14 +164,15 @@ class Explosion {
       let explosionBottom = player.explosions[i].y + cellSize;
       // Verificar si hay intersección entre el área del player y el área de la explosion
       if (
-        playerRight > explosionLeft &&
-        playerLeft < explosionRight &&
-        playerBottom > explosionTop &&
-        playerTop < explosionBottom
-
-        //añadir las celdas colindates de la explosion
+        (playerRight > explosionLeft &&
+          playerLeft < explosionRight &&
+          playerBottom > explosionTop &&
+          playerTop < explosionBottom) ||
+        (playerRight > explosionLeft - cellSize &&
+          playerLeft < explosionRight + cellSize &&
+          playerBottom > explosionTop - cellSize &&
+          playerTop < explosionBottom + cellSize)
       ) {
-        //console.log("player se ha quemado con la explosion!!!");
         player.deathPlayer();
         return true;
       }
