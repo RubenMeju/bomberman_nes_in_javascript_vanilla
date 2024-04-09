@@ -49,6 +49,7 @@ class Explosion {
   }
 
   draw() {
+    this.isCollisions();
     //central
     ctx.drawImage(
       imgSprites,
@@ -144,5 +145,38 @@ class Explosion {
     // Seleccionar el frame actual down
     this.frameXdown = this.animationFramesDown[this.currentFrameIndex].x;
     this.frameYdown = this.animationFramesDown[this.currentFrameIndex].y;
+  }
+
+  isCollisions() {
+    // console.log("colision con la explosion");
+    // Calcular los límites del área del player en la nueva posición
+    let playerLeft = player.x;
+    let playerRight = player.x + player.size;
+    let playerTop = player.y;
+    let playerBottom = player.y + player.size;
+
+    // Verificar colisión con cada explosion
+    for (let i = 0; i < player.explosions.length; i++) {
+      // Calcular los límites del área de la explosion
+      let explosionLeft = player.explosions[i].x;
+      let explosionRight = player.explosions[i].x + cellSize;
+      let explosionTop = player.explosions[i].y;
+      let explosionBottom = player.explosions[i].y + cellSize;
+      // Verificar si hay intersección entre el área del player y el área de la explosion
+      if (
+        playerRight > explosionLeft &&
+        playerLeft < explosionRight &&
+        playerBottom > explosionTop &&
+        playerTop < explosionBottom
+
+        //añadir las celdas colindates de la explosion
+      ) {
+        //console.log("player se ha quemado con la explosion!!!");
+        player.deathPlayer();
+        return true;
+      }
+    }
+
+    return false;
   }
 }

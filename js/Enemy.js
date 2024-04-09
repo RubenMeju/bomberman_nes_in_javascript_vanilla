@@ -40,7 +40,7 @@ class Enemy {
   update() {
     this.move();
     this.draw();
-    this.animate(this.direction);
+    this.animate();
   }
 
   draw() {

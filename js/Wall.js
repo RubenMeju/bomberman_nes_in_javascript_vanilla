@@ -74,7 +74,6 @@ class Wall {
 
   destroyWall(x, y) {
     // x, y son las coordenadas de la bomba
-    console.log(walls);
     // Buscar y eliminar la pared a la derecha de la bomba
     for (let i = 0; i < walls.length; i++) {
       if (walls[i].x === x + cellSize && walls[i].y === y) {

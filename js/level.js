@@ -34,36 +34,6 @@ function drawLevel() {
     //console.log(wall);
   });
 }
-/*
-function destroyWall(explosion) {
-  let cellX = Math.floor(explosion.x / cellSize); //posicion X de la bomba
-  let cellY = Math.floor(explosion.y / cellSize); // posicion Y de la bomba
-
-  // Verificar la celda arriba
-  if (cellY > 0 && level[cellY - 1][cellX] === 2) {
-    console.log("La celda arriba es una pared.");
-    level[cellY - 1][cellX] = 0;
-  }
-
-  // Verificar la celda abajo
-  if (cellY < level.length - 1 && level[cellY + 1][cellX] === 2) {
-    console.log("La celda abajo es una pared.");
-    level[cellY + 1][cellX] = 0;
-  }
-
-  // Verificar la celda a la izquierda
-  if (cellX > 0 && level[cellY][cellX - 1] === 2) {
-    console.log("La celda a la izquierda es una pared.");
-    level[cellY][cellX - 1] = 0;
-  }
-
-  // Verificar la celda a la derecha
-  if (cellX < level[cellY].length - 1 && level[cellY][cellX + 1] === 2) {
-    console.log("La celda a la derecha es una pared.");
-    level[cellY][cellX + 1] = 0;
-  }
-}
-*/
 // para desarrollo (muestra los px de cada celda)
 function drawBorderCell() {
   // Coordenadas del cuadrado

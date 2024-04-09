@@ -2,7 +2,7 @@ class Player {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = 52; // tamaño del jugador en el canvas
+    this.size = cellSize - 10; // tamaño del jugador en el canvas
     // posiciones para seleccionar los frames del sprite
     this.frameX = 0;
     this.frameY = 0;
@@ -16,8 +16,6 @@ class Player {
 
     this.bombs = [];
     this.explosions = [];
-
-    this.isDeath = false;
 
     // Frames de animación para cada dirección
     this.animationFrames = {
@@ -62,15 +60,10 @@ class Player {
   }
 
   update() {
-    // this.animate();
-    this.movement();
     this.draw();
-    this.deathPlayer();
-    if (this.isDeath) {
+    this.movement();
+    if (this.direction === "death") {
       this.animate();
-      setInterval(() => {
-        isGameOver = true;
-      }, 900);
     }
   }
 
@@ -87,37 +80,32 @@ class Player {
       this.size, // Ancho del frame en el canvas (tamaño de la celda)
       this.size // Alto del frame en el canvas (tamaño de la celda)
     );
+    this.isCollisionPlayerWithEnemies();
   }
 
   movement() {
-    //console.log("Dirección actual:", this.direction);
+    if (this.direction !== "death") {
+      let newPos = { x: this.x, y: this.y }; // Nueva posición del jugador
 
-    let newPos = { x: this.x, y: this.y }; // Nueva posición del jugador
-    let isMoving = false; // Variable para rastrear si el jugador se está moviendo
-
-    if (this.rightPress && this.direction === "right") {
-      newPos.x += this.speed;
-      isMoving = true;
-    } else if (this.leftPress && this.direction === "left") {
-      newPos.x -= this.speed;
-      isMoving = true;
-    } else if (this.upPress && this.direction === "up") {
-      newPos.y -= this.speed;
-      isMoving = true;
-    } else if (this.downPress && this.direction === "down") {
-      newPos.y += this.speed;
-      isMoving = true;
-    }
-
-    if (!this.isCollisionWalls(newPos.x, newPos.y)) {
-      // console.log("No hay colisión en la nueva posición. Moviendo...");
-      this.x = newPos.x;
-      this.y = newPos.y;
-      if (isMoving) {
-        this.animate(this.direction); // Animar solo si el jugador se está moviendo
+      if (this.rightPress && this.direction === "right") {
+        newPos.x += this.speed;
+        this.animate();
+      } else if (this.leftPress && this.direction === "left") {
+        newPos.x -= this.speed;
+        this.animate();
+      } else if (this.upPress && this.direction === "up") {
+        newPos.y -= this.speed;
+        this.animate();
+      } else if (this.downPress && this.direction === "down") {
+        newPos.y += this.speed;
+        this.animate();
       }
-    } else {
-      // console.log("¡Colisión detectada!");
+
+      if (!this.isCollisionWalls(newPos.x, newPos.y)) {
+        // console.log("No hay colisión en la nueva posición. Moviendo...");
+        this.x = newPos.x;
+        this.y = newPos.y;
+      }
     }
   }
 
@@ -143,27 +131,12 @@ class Player {
         jugadorBottom > paredTop &&
         jugadorTop < paredBottom
       ) {
-        console.log("Colisión detectada");
+        //console.log("Colisión detectada");
         return true;
       }
     }
 
     return false;
-  }
-
-  animate() {
-    // Actualizar el frame de animación
-    this.frameCount++;
-    if (this.frameCount >= this.animationSpeed) {
-      this.frameCount = 0;
-      this.currentFrameIndex = (this.currentFrameIndex + 1) % this.framesNumber; // 3 es el número de frames de animación para cada dirección
-    }
-
-    // Seleccionar el frame actual basado en la dirección
-    this.frameX =
-      this.animationFrames[this.direction][this.currentFrameIndex].x;
-    this.frameY =
-      this.animationFrames[this.direction][this.currentFrameIndex].y;
   }
 
   placeBomb() {
@@ -224,6 +197,8 @@ class Player {
         playerTop < enemyBottom
       ) {
         console.log("el jugador ha muerto!!!");
+
+        this.deathPlayer();
         return true;
       }
     }
@@ -232,12 +207,31 @@ class Player {
   }
 
   deathPlayer() {
-    if (this.isCollisionPlayerWithEnemies()) {
-      // console.log("colisionPlayerWithEnemies");
-      this.isDeath = true;
-      this.framesNumber = 7;
-      this.animationSpeed = 12;
-      this.direction = "death";
+    console.log("deathPlayer: ");
+    this.direction = "death";
+    this.framesNumber = 7;
+    this.animationSpeed = 12;
+    setTimeout(() => {
+      isPlaying = false;
+      player = [];
+      console.log("player", player);
+
+      restartGame();
+    }, 900);
+  }
+
+  animate() {
+    // Actualizar el frame de animación
+    this.frameCount++;
+    if (this.frameCount >= this.animationSpeed) {
+      this.frameCount = 0;
+      this.currentFrameIndex = (this.currentFrameIndex + 1) % this.framesNumber; // 3 es el número de frames de animación para cada dirección
     }
+
+    // Seleccionar el frame actual basado en la dirección
+    this.frameX =
+      this.animationFrames[this.direction][this.currentFrameIndex].x;
+    this.frameY =
+      this.animationFrames[this.direction][this.currentFrameIndex].y;
   }
 }
