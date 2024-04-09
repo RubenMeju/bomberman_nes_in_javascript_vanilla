@@ -16,8 +16,8 @@ let level = [
 
 for (let i = 0; i < level.length; i++) {
   for (let j = 0; j < level[i].length; j++) {
-    const posX = j * 64;
-    const posY = i * 64;
+    const posX = j * cellSize;
+    const posY = i * cellSize;
 
     // 1 pared
     if (level[i][j] === 1) {
