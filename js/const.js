@@ -26,4 +26,3 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = columns * cellSize;
 canvas.height = rows * cellSize;
-canvas.style.backgroundColor = "#2e8b00";

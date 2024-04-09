@@ -214,7 +214,6 @@ class Player {
     setTimeout(() => {
       isPlaying = false;
       player = [];
-      console.log("player", player);
 
       restartGame();
     }, 900);
