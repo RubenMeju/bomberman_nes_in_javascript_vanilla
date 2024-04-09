@@ -17,6 +17,8 @@ class Player {
     this.bombs = [];
     this.explosions = [];
 
+    this.isDeath = false;
+
     // Frames de animación para cada dirección
     this.animationFrames = {
       right: [
@@ -39,6 +41,15 @@ class Player {
         { x: 16 * 4, y: 0 },
         { x: 16 * 5, y: 0 },
       ],
+      death: [
+        { x: 0, y: 32 },
+        { x: 16, y: 32 },
+        { x: 16 * 2, y: 32 },
+        { x: 16 * 3, y: 32 },
+        { x: 16 * 4, y: 32 },
+        { x: 16 * 5, y: 32 },
+        { x: 16 * 6, y: 32 },
+      ],
     };
     // Índice de frame actual en la animación
     this.currentFrameIndex = 0;
@@ -46,11 +57,21 @@ class Player {
     this.frameCount = 0;
     // Velocidad de la animación
     this.animationSpeed = 5; // Ajusta esto según la velocidad deseada
+    // Número de frames para la animación
+    this.framesNumber = 3;
   }
 
   update() {
+    // this.animate();
     this.movement();
     this.draw();
+    this.deathPlayer();
+    if (this.isDeath) {
+      this.animate();
+      setInterval(() => {
+        isGameOver = true;
+      }, 900);
+    }
   }
 
   draw() {
@@ -88,7 +109,7 @@ class Player {
       isMoving = true;
     }
 
-    if (!this.isCollision(newPos.x, newPos.y)) {
+    if (!this.isCollisionWalls(newPos.x, newPos.y)) {
       // console.log("No hay colisión en la nueva posición. Moviendo...");
       this.x = newPos.x;
       this.y = newPos.y;
@@ -100,7 +121,7 @@ class Player {
     }
   }
 
-  isCollision(posX, posY) {
+  isCollisionWalls(posX, posY) {
     // Calcular los límites del área del jugador en la nueva posición
     let jugadorLeft = posX;
     let jugadorRight = posX + this.size;
@@ -135,7 +156,7 @@ class Player {
     this.frameCount++;
     if (this.frameCount >= this.animationSpeed) {
       this.frameCount = 0;
-      this.currentFrameIndex = (this.currentFrameIndex + 1) % 3; // 3 es el número de frames de animación para cada dirección
+      this.currentFrameIndex = (this.currentFrameIndex + 1) % this.framesNumber; // 3 es el número de frames de animación para cada dirección
     }
 
     // Seleccionar el frame actual basado en la dirección
@@ -178,5 +199,45 @@ class Player {
         this.explosions.splice(explosionIndex, 1); // Usar this.explosions para modificar el arreglo de explosiones
       }
     }, 500);
+  }
+
+  isCollisionPlayerWithEnemies() {
+    // Calcular los límites del área del player en la nueva posición
+    let playerLeft = this.x;
+    let playerRight = this.x + this.size;
+    let playerTop = this.y;
+    let playerBottom = this.y + this.size;
+
+    // Verificar colisión con cada enemy
+    for (let i = 0; i < enemies.length; i++) {
+      // Calcular los límites del área de la enemy
+      let enemyLeft = enemies[i].x;
+      let enemyRight = enemies[i].x + cellSize;
+      let enemyTop = enemies[i].y;
+      let enemyBottom = enemies[i].y + cellSize;
+
+      // Verificar si hay intersección entre el área del player y el área de la enemy
+      if (
+        playerRight > enemyLeft &&
+        playerLeft < enemyRight &&
+        playerBottom > enemyTop &&
+        playerTop < enemyBottom
+      ) {
+        console.log("el jugador ha muerto!!!");
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  deathPlayer() {
+    if (this.isCollisionPlayerWithEnemies()) {
+      // console.log("colisionPlayerWithEnemies");
+      this.isDeath = true;
+      this.framesNumber = 7;
+      this.animationSpeed = 12;
+      this.direction = "death";
+    }
   }
 }

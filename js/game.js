@@ -61,16 +61,16 @@ function loop() {
     });
   }
 
-  //actualizar jugador
-  player.update();
-
   // Enemigos
-  //enemy.update();
-
   if (totalEnemies > 0) {
     enemies.forEach((enemy) => {
       enemy.update();
     });
+  }
+
+  if (!isGameOver) {
+    //actualizar jugador
+    player.update();
   }
 
   window.requestAnimationFrame(loop);

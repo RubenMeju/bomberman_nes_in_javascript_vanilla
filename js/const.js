@@ -10,6 +10,8 @@ let walls = [];
 let enemies = [];
 let totalEnemies = 6;
 
+let isGameOver = false;
+
 canvas.width = columns * cellSize;
 canvas.height = rows * cellSize;
 canvas.style.backgroundColor = "#2e8b00";
