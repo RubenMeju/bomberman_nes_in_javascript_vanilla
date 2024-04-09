@@ -3,9 +3,35 @@ const ctx = canvas.getContext("2d");
 
 const player = new Player(cellSize, cellSize);
 
+function getEmptyCellCoordinates() {
+  const coordinates = [];
+  for (let i = 0; i < level.length; i++) {
+    for (let j = 0; j < level[i].length; j++) {
+      let cellX = j * cellSize;
+      let cellY = i * cellSize;
+
+      if (level[i][j] === 0) {
+        coordinates.push({ x: cellX, y: cellY });
+      }
+    }
+  }
+  return coordinates;
+}
+
+// Obtener las coordinates de las celdas vacías
+const emptycoordinates = getEmptyCellCoordinates();
+
 // Crear los enemigos y añadirlos a enemies
 for (let i = 0; i < totalEnemies; i++) {
-  enemies.push(new Enemy(cellSize, cellSize * i));
+  // Obtener una coordenada vacía al azar
+  const randomcoordinate =
+    emptycoordinates[Math.floor(Math.random() * emptycoordinates.length)];
+
+  // Crear un enemigo en la coordenada aleatoria
+  const enemyX = randomcoordinate.x;
+  const enemyY = randomcoordinate.y;
+
+  enemies.push(new Enemy(enemyX, enemyY));
 }
 
 function clearCanvas() {
@@ -25,7 +51,7 @@ function loop() {
   //dibujar nivel
   drawLevel();
 
-  //dibujar las coordenadas (para desarrollo)
+  //dibujar las coordinates (para desarrollo)
   drawBorderCell();
 
   //dibujar las bombas
