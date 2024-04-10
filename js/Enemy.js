@@ -104,7 +104,7 @@ class Enemy {
     }
 
     // Verificar si el nuevo movimiento causa una colisión
-    if (!this.isCollision()) {
+    if (!this.isCollisionWalls()) {
       this.x = newX;
       this.y = newY;
       // Verificar colision con las bombas
@@ -139,7 +139,7 @@ class Enemy {
     }
   }
 
-  isCollision() {
+  isCollisionWalls() {
     let enemyLeft = this.x;
     let enemyRight = this.x + this.size;
     let enemyTop = this.y;
@@ -200,33 +200,17 @@ class Enemy {
   }
 
   isCollisionEnemyWithbombs() {
-    // Calcular los límites del área del enemy en la nueva posición
-    let enemyLeft = this.x;
-    let enemyRight = this.x + this.size;
-    let enemyTop = this.y;
-    let enemyBottom = this.y + this.size;
-
-    // Verificar colisión con cada bomb
-    for (let i = 0; i < player.bombs.length; i++) {
-      // Calcular los límites del área de la bomb
-      let bombLeft = player.bombs[i].x;
-      let bombRight = player.bombs[i].x + cellSize;
-      let bombTop = player.bombs[i].y;
-      let bombBottom = player.bombs[i].y + cellSize;
-
-      // Verificar si hay intersección entre el área del enemy y el área de la bomb
-      if (
-        enemyRight > bombLeft &&
-        enemyLeft < bombRight &&
-        enemyBottom > bombTop &&
-        enemyTop < bombBottom
-      ) {
-        console.log("el enemigo colisiono con una bomba!!!");
-
-        return true;
+    for (let i = 0; i < enemies.length; i++) {
+      //console.log("enemigo" + i + ":" + enemies[i]);
+      for (let j = 0; j < player.bombs.length; j++) {
+        //console.log("entramos en check colision");
+        let bomb = player.bombs[j];
+        console.log("bombaaaaa: ", bomb);
+        if (checkCollision(enemies[i], bomb)) {
+          return true;
+        }
       }
     }
-
     return false;
   }
 
