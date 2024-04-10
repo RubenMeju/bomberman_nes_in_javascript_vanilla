@@ -16,7 +16,7 @@ class Player {
 
     this.bombs = [];
     this.explosions = [];
-
+    this.isAlive = true;
     // Frames de animación para cada dirección
     this.animationFrames = {
       right: [
@@ -208,6 +208,7 @@ class Player {
 
   deathPlayer() {
     console.log("deathPlayer: ");
+    this.isAlive = false;
     this.direction = "death";
     this.framesNumber = 7;
     this.animationSpeed = 12;
