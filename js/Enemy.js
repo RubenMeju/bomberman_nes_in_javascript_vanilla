@@ -74,69 +74,31 @@ class Enemy {
   }
 
   move() {
-    let isMoving = false;
-    let shouldChangeDirection = false;
+    let newX = this.x;
+    let newY = this.y;
 
-    if (this.isOnCellCenter()) {
-      // Si el enemigo está en el centro de una celda, verificamos si puede seguir en la dirección actual
-      switch (this.direction) {
-        case "right":
-          if (!this.isCollision()) {
-            this.x += this.speed;
-            isMoving = true;
-          } else {
-            shouldChangeDirection = true;
-          }
-          break;
-        case "left":
-          if (!this.isCollision()) {
-            this.x -= this.speed;
-            isMoving = true;
-          } else {
-            shouldChangeDirection = true;
-          }
-          break;
-        case "up":
-          if (!this.isCollision()) {
-            this.y -= this.speed;
-            isMoving = true;
-          } else {
-            shouldChangeDirection = true;
-          }
-          break;
-        case "down":
-          if (!this.isCollision()) {
-            this.y += this.speed;
-            isMoving = true;
-          } else {
-            shouldChangeDirection = true;
-          }
-          break;
-      }
-    } else {
-      // Si el enemigo no está en el centro de una celda, sigue moviéndose en su dirección actual
-      switch (this.direction) {
-        case "right":
-          this.x += this.speed;
-          isMoving = true;
-          break;
-        case "left":
-          this.x -= this.speed;
-          isMoving = true;
-          break;
-        case "up":
-          this.y -= this.speed;
-          isMoving = true;
-          break;
-        case "down":
-          this.y += this.speed;
-          isMoving = true;
-          break;
-      }
+    // Mover al enemigo según la dirección actual
+    switch (this.direction) {
+      case "left":
+        newX -= this.speed;
+        break;
+      case "right":
+        newX += this.speed;
+        break;
+      case "up":
+        newY -= this.speed;
+        break;
+      case "down":
+        newY += this.speed;
+        break;
     }
 
-    // Si no puede moverse en la dirección actual, cambia de dirección
-    if (!isMoving && shouldChangeDirection) {
+    // Verificar si el nuevo movimiento causa una colisión
+    if (!this.isCollision()) {
+      this.x = newX;
+      this.y = newY;
+    } else {
+      // Cambiar la dirección aleatoriamente si hay colisión
       this.changeDirectionRandomly();
     }
   }
