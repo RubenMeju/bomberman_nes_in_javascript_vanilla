@@ -19,8 +19,10 @@ function keyDownHandler(event) {
     }
   }
 
-  if (key === "Enter") {
-    startGame();
+  if (!isPlaying) {
+    if (key === "Enter") {
+      startGame();
+    }
   }
 }
 
