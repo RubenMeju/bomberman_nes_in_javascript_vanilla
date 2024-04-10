@@ -49,6 +49,8 @@ class Explosion {
   }
 
   draw() {
+    this.isCollisionsEnemiesWithExplosion();
+
     this.isCollisions();
     //central
     ctx.drawImage(
@@ -178,6 +180,42 @@ class Explosion {
       }
     }
 
+    return false;
+  }
+
+  isCollisionsEnemiesWithExplosion() {
+    // console.log("colision con la explosion");
+    for (let j = 0; j < enemies.length; j++) {
+      // Calcular los límites del área del enemy en la nueva posición
+      let enemyLeft = enemies[j].x;
+      let enemyRight = enemies[j].x + enemies[j].size;
+      let enemyTop = enemies[j].y;
+      let enemyBottom = enemies[j].y + enemies[j].size;
+      console.log("paso por la explision");
+      // Verificar colisión con cada explosion
+      for (let i = 0; i < player.explosions.length; i++) {
+        // Calcular los límites del área de la explosion
+        let explosionLeft = player.explosions[i].x;
+        let explosionRight = player.explosions[i].x + cellSize;
+        let explosionTop = player.explosions[i].y;
+        let explosionBottom = player.explosions[i].y + cellSize;
+        // Verificar si hay intersección entre el área del enemy y el área de la explosion
+        if (
+          (enemyRight > explosionLeft &&
+            enemyLeft < explosionRight &&
+            enemyBottom > explosionTop &&
+            enemyTop < explosionBottom) ||
+          (enemyRight > explosionLeft - cellSize &&
+            enemyLeft < explosionRight + cellSize &&
+            enemyBottom > explosionTop - cellSize &&
+            enemyTop < explosionBottom + cellSize)
+        ) {
+          console.log("muerte del enemigo");
+          enemies[j].destroy(enemies[j]);
+          return true;
+        }
+      }
+    }
     return false;
   }
 }

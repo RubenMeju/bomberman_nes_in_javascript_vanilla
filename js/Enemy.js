@@ -205,7 +205,7 @@ class Enemy {
       for (let j = 0; j < player.bombs.length; j++) {
         //console.log("entramos en check colision");
         let bomb = player.bombs[j];
-        console.log("bombaaaaa: ", bomb);
+        // console.log("bombaaaaa: ", bomb);
         if (checkCollision(enemies[i], bomb)) {
           return true;
         }
@@ -219,13 +219,15 @@ class Enemy {
     this.isAlive = false;
     this.direction = "death";
     this.framesNumber = 5;
-    this.animationSpeed = 12;
-    //eliminar el enemigo
-    // Encontrar el índice de la explosión dentro del array de explosiones del jugador
-    let explosionIndex = enemies.indexOf(enemy);
-    if (explosionIndex !== -1) {
-      // Si se encontró la explosión dentro del array, eliminarla
-      enemies.splice(explosionIndex, 1);
-    }
+    this.animationSpeed = 18;
+    setTimeout(() => {
+      //eliminar el enemigo
+      // Encontrar el índice de la explosión dentro del array de explosiones del jugador
+      let explosionIndex = enemies.indexOf(enemy);
+      if (explosionIndex !== -1) {
+        // Si se encontró la explosión dentro del array, eliminarla
+        enemies.splice(explosionIndex, 1);
+      }
+    }, 300);
   }
 }
