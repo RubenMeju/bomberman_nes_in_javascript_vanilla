@@ -80,6 +80,7 @@ class Player {
       this.size, // Ancho del frame en el canvas (tamaño de la celda)
       this.size // Alto del frame en el canvas (tamaño de la celda)
     );
+
     this.isCollisionPlayerWithEnemies();
   }
 
@@ -175,35 +176,13 @@ class Player {
   }
 
   isCollisionPlayerWithEnemies() {
-    // Calcular los límites del área del player en la nueva posición
-    let playerLeft = this.x;
-    let playerRight = this.x + this.size;
-    let playerTop = this.y;
-    let playerBottom = this.y + this.size;
-
     // Verificar colisión con cada enemy
     for (let i = 0; i < enemies.length; i++) {
-      // Calcular los límites del área de la enemy
-      let enemyLeft = enemies[i].x;
-      let enemyRight = enemies[i].x + cellSize;
-      let enemyTop = enemies[i].y;
-      let enemyBottom = enemies[i].y + cellSize;
-
-      // Verificar si hay intersección entre el área del player y el área de la enemy
-      if (
-        playerRight > enemyLeft &&
-        playerLeft < enemyRight &&
-        playerBottom > enemyTop &&
-        playerTop < enemyBottom
-      ) {
-        console.log("el jugador ha muerto!!!");
-
+      //console.log(enemies[i]);
+      if (checkCollision(player, enemies[i])) {
         this.deathPlayer();
-        return true;
       }
     }
-
-    return false;
   }
 
   deathPlayer() {

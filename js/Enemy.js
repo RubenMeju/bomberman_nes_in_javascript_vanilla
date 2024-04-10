@@ -4,8 +4,8 @@ class Enemy {
     this.y = y;
     this.size = cellSize;
     this.speed = 1;
-    this.direction = "down";
-
+    this.direction = "right";
+    this.isAlive = true;
     // Frames de animación para cada dirección
     this.animationFrames = {
       right: [
@@ -28,6 +28,13 @@ class Enemy {
         { x: 16 * 4, y: 16 * 15 },
         { x: 16 * 5, y: 16 * 15 },
       ],
+      death: [
+        { x: 16 * 6, y: 16 * 15 },
+        { x: 16 * 7, y: 16 * 15 },
+        { x: 16 * 8, y: 16 * 15 },
+        { x: 16 * 9, y: 16 * 15 },
+        { x: 16 * 10, y: 16 * 15 },
+      ],
     };
     // Índice de frame actual en la animación
     this.currentFrameIndex = 0;
@@ -35,12 +42,15 @@ class Enemy {
     this.frameCount = 0;
     // Velocidad de la animación
     this.animationSpeed = 12; // Ajusta esto según la velocidad deseada
+    this.framesNumber = 3;
   }
 
   update() {
     this.move();
     this.draw();
-    this.animate();
+    if (this.direction === "death") {
+      this.animate();
+    }
   }
 
   draw() {
@@ -63,7 +73,7 @@ class Enemy {
     this.frameCount++;
     if (this.frameCount >= this.animationSpeed) {
       this.frameCount = 0;
-      this.currentFrameIndex = (this.currentFrameIndex + 1) % 3; // 3 es el número de frames de animación para cada dirección
+      this.currentFrameIndex = (this.currentFrameIndex + 1) % this.framesNumber; // 3 es el número de frames de animación para cada dirección
     }
 
     // Seleccionar el frame actual basado en la dirección
@@ -76,7 +86,7 @@ class Enemy {
   move() {
     let newX = this.x;
     let newY = this.y;
-
+    this.animate();
     // Mover al enemigo según la dirección actual
     switch (this.direction) {
       case "left":
@@ -218,5 +228,20 @@ class Enemy {
     }
 
     return false;
+  }
+
+  destroy(enemy) {
+    console.log("destroy: ");
+    this.isAlive = false;
+    this.direction = "death";
+    this.framesNumber = 5;
+    this.animationSpeed = 12;
+    //eliminar el enemigo
+    // Encontrar el índice de la explosión dentro del array de explosiones del jugador
+    let explosionIndex = enemies.indexOf(enemy);
+    if (explosionIndex !== -1) {
+      // Si se encontró la explosión dentro del array, eliminarla
+      enemies.splice(explosionIndex, 1);
+    }
   }
 }
