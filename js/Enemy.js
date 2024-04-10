@@ -97,6 +97,18 @@ class Enemy {
     if (!this.isCollision()) {
       this.x = newX;
       this.y = newY;
+      // Verificar colision con las bombas
+      if (this.isCollisionEnemyWithbombs()) {
+        if (this.direction == "left") {
+          this.direction = "right";
+        } else if (this.direction == "right") {
+          this.direction = "left";
+        } else if (this.direction == "up") {
+          this.direction = "down";
+        } else if (this.direction == "down") {
+          this.direction = "up";
+        }
+      }
     } else {
       // Cambiar la dirección aleatoriamente si hay colisión
       this.changeDirectionRandomly();
@@ -171,6 +183,37 @@ class Enemy {
             return true;
           }
           break;
+      }
+    }
+
+    return false;
+  }
+
+  isCollisionEnemyWithbombs() {
+    // Calcular los límites del área del enemy en la nueva posición
+    let enemyLeft = this.x;
+    let enemyRight = this.x + this.size;
+    let enemyTop = this.y;
+    let enemyBottom = this.y + this.size;
+
+    // Verificar colisión con cada bomb
+    for (let i = 0; i < player.bombs.length; i++) {
+      // Calcular los límites del área de la bomb
+      let bombLeft = player.bombs[i].x;
+      let bombRight = player.bombs[i].x + cellSize;
+      let bombTop = player.bombs[i].y;
+      let bombBottom = player.bombs[i].y + cellSize;
+
+      // Verificar si hay intersección entre el área del enemy y el área de la bomb
+      if (
+        enemyRight > bombLeft &&
+        enemyLeft < bombRight &&
+        enemyBottom > bombTop &&
+        enemyTop < bombBottom
+      ) {
+        console.log("el enemigo colisiono con una bomba!!!");
+
+        return true;
       }
     }
 
