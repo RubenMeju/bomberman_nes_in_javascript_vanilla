@@ -4,7 +4,7 @@ class Bomb {
     this.y = y;
     this.frameX = 0;
     this.frameY = 16 * 3;
-
+    this.size = cellSize;
     // Frames de animación para cada dirección
     this.animationFrames = [
       { x: 32, y: 48 },

@@ -4,7 +4,7 @@ class Wall {
     this.y = y;
     this.typeWall = typeWall;
     this.frameX = 0;
-
+    this.size = cellSize;
     //animacion drawFireWall
     this.frameXfire = 16;
     this.frameYfire = 16;
