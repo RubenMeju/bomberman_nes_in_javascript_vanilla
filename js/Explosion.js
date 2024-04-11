@@ -150,33 +150,49 @@ class Explosion {
   }
 
   isCollisions() {
-    // console.log("colision con la explosion");
-    // Calcular los límites del área del player en la nueva posición
-    let playerLeft = player.x;
-    let playerRight = player.x + player.size;
-    let playerTop = player.y;
-    let playerBottom = player.y + player.size;
-    console.log(playerTop);
-    // Verificar colisión con cada explosion
-    for (let i = 0; i < player.explosions.length; i++) {
-      // Calcular los límites del área de la explosion
-      let explosionLeft = player.explosions[i].x;
-      let explosionRight = player.explosions[i].x + cellSize;
-      let explosionTop = player.explosions[i].y;
-      let explosionBottom = player.explosions[i].y + cellSize;
-      // Verificar si hay intersección entre el área del player y el área de la explosion
+    // Calcular los límites del área del jugador en la nueva posición
+    const playerLeft = player.x;
+    const playerRight = player.x + player.size;
+    const playerTop = player.y;
+    const playerBottom = player.y + player.size;
+
+    // Verificar colisión con cada explosión
+    for (const explosion of player.explosions) {
+      // Calcular los límites del área de la explosión
+      const explosionLeft = explosion.x;
+      const explosionRight = explosion.x + cellSize;
+      const explosionTop = explosion.y;
+      const explosionBottom = explosion.y + cellSize;
+
+      // Verificar si hay intersección entre el área del jugador y el área de la explosión
       if (
-        (playerRight > explosionLeft &&
-          playerLeft < explosionRight &&
-          playerBottom > explosionTop &&
-          playerTop < explosionBottom) ||
-        (playerRight > explosionLeft - cellSize &&
-          playerLeft < explosionRight + cellSize &&
-          playerBottom > explosionTop - cellSize &&
-          playerTop < explosionBottom + cellSize)
+        playerRight > explosionLeft &&
+        playerLeft < explosionRight &&
+        playerBottom > explosionTop &&
+        playerTop < explosionBottom
       ) {
         player.deathPlayer();
         return true;
+      }
+
+      // Verificar colisión con las celdas adyacentes a la explosión
+      const adjacentCells = [
+        { x: explosion.x - cellSize, y: explosion.y }, // izquierda
+        { x: explosion.x + cellSize, y: explosion.y }, // derecha
+        { x: explosion.x, y: explosion.y - cellSize }, // arriba
+        { x: explosion.x, y: explosion.y + cellSize }, // abajo
+      ];
+
+      for (const cell of adjacentCells) {
+        if (
+          playerRight > cell.x &&
+          playerLeft < cell.x + cellSize &&
+          playerBottom > cell.y &&
+          playerTop < cell.y + cellSize
+        ) {
+          player.deathPlayer();
+          return true;
+        }
       }
     }
 
