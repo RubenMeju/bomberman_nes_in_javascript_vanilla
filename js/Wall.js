@@ -73,44 +73,33 @@ class Wall {
   }
 
   destroyWall(x, y) {
-    // x, y son las coordenadas de la bomba
-    // Buscar y eliminar la pared a la derecha de la bomba
-    for (let i = 0; i < walls.length; i++) {
-      if (walls[i].x === x + cellSize && walls[i].y === y) {
-        if (walls[i].typeWall === 2) {
+    const directions = [
+      { dx: cellSize, dy: 0 }, // Derecha
+      { dx: -cellSize, dy: 0 }, // Izquierda
+      { dx: 0, dy: -cellSize }, // Arriba
+      { dx: 0, dy: cellSize }, // Abajo
+    ];
+
+    let i = 0;
+
+    while (i < walls.length) {
+      let wall = walls[i];
+      let found = false;
+
+      for (const dir of directions) {
+        const targetX = x + dir.dx;
+        const targetY = y + dir.dy;
+
+        if (wall.x === targetX && wall.y === targetY && wall.typeWall === 2) {
           walls.splice(i, 1); // Eliminar la pared del arreglo
-          break; // Salir del bucle después de eliminar la pared
+          found = true;
+          break; // Salir del bucle de direcciones
         }
       }
-    }
 
-    // Buscar y eliminar la pared a la izquierda de la bomba
-    for (let i = 0; i < walls.length; i++) {
-      if (walls[i].x === x - cellSize && walls[i].y === y) {
-        if (walls[i].typeWall === 2) {
-          walls.splice(i, 1); // Eliminar la pared del arreglo
-          break; // Salir del bucle después de eliminar la pared
-        }
-      }
-    }
-
-    // Buscar y eliminar la pared arriba de la bomba
-    for (let i = 0; i < walls.length; i++) {
-      if (walls[i].x === x && walls[i].y === y - cellSize) {
-        if (walls[i].typeWall === 2) {
-          walls.splice(i, 1); // Eliminar la pared del arreglo
-          break; // Salir del bucle después de eliminar la pared
-        }
-      }
-    }
-
-    // Buscar y eliminar la pared abajo de la bomba
-    for (let i = 0; i < walls.length; i++) {
-      if (walls[i].x === x && walls[i].y === y + cellSize) {
-        if (walls[i].typeWall === 2) {
-          walls.splice(i, 1); // Eliminar la pared del arreglo
-          break; // Salir del bucle después de eliminar la pared
-        }
+      // Solo incrementamos el índice si no se eliminó ninguna pared en esta iteración
+      if (!found) {
+        i++;
       }
     }
   }
