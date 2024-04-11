@@ -49,9 +49,7 @@ class Explosion {
   }
 
   draw() {
-    this.isCollisionsEnemiesWithExplosion();
-
-    this.isCollisions();
+    this.checkCollisions();
     //central
     ctx.drawImage(
       imgSprites,
@@ -149,22 +147,21 @@ class Explosion {
     this.frameYdown = this.animationFramesDown[this.currentFrameIndex].y;
   }
 
-  isCollisions() {
-    // Calcular los límites del área del jugador en la nueva posición
+  checkCollisions() {
+    let collided = false;
+
+    // Verificar colisión del jugador con explosiones y celdas adyacentes
     const playerLeft = player.x;
     const playerRight = player.x + player.size;
     const playerTop = player.y;
     const playerBottom = player.y + player.size;
 
-    // Verificar colisión con cada explosión
     for (const explosion of player.explosions) {
-      // Calcular los límites del área de la explosión
       const explosionLeft = explosion.x;
       const explosionRight = explosion.x + cellSize;
       const explosionTop = explosion.y;
       const explosionBottom = explosion.y + cellSize;
 
-      // Verificar si hay intersección entre el área del jugador y el área de la explosión
       if (
         playerRight > explosionLeft &&
         playerLeft < explosionRight &&
@@ -172,15 +169,14 @@ class Explosion {
         playerTop < explosionBottom
       ) {
         player.deathPlayer();
-        return true;
+        collided = true;
       }
 
-      // Verificar colisión con las celdas adyacentes a la explosión
       const adjacentCells = [
-        { x: explosion.x - cellSize, y: explosion.y }, // izquierda
-        { x: explosion.x + cellSize, y: explosion.y }, // derecha
-        { x: explosion.x, y: explosion.y - cellSize }, // arriba
-        { x: explosion.x, y: explosion.y + cellSize }, // abajo
+        { x: explosion.x - cellSize, y: explosion.y },
+        { x: explosion.x + cellSize, y: explosion.y },
+        { x: explosion.x, y: explosion.y - cellSize },
+        { x: explosion.x, y: explosion.y + cellSize },
       ];
 
       for (const cell of adjacentCells) {
@@ -191,32 +187,25 @@ class Explosion {
           playerTop < cell.y + cellSize
         ) {
           player.deathPlayer();
-          return true;
+          collided = true;
         }
       }
     }
 
-    return false;
-  }
-
-  isCollisionsEnemiesWithExplosion() {
+    // Verificar colisión de enemigos con explosiones y celdas adyacentes
     for (let j = 0; j < enemies.length; j++) {
       const enemy = enemies[j];
-      // Calcular los límites del área del enemigo en la nueva posición
       const enemyLeft = enemy.x;
       const enemyRight = enemy.x + enemy.size;
       const enemyTop = enemy.y;
       const enemyBottom = enemy.y + enemy.size;
 
-      // Verificar colisión con cada explosión
       for (const explosion of player.explosions) {
-        // Calcular los límites del área de la explosión
         const explosionLeft = explosion.x;
         const explosionRight = explosion.x + cellSize;
         const explosionTop = explosion.y;
         const explosionBottom = explosion.y + cellSize;
 
-        // Verificar si hay intersección entre el área del enemigo y el área de la explosión
         if (
           enemyRight > explosionLeft &&
           enemyLeft < explosionRight &&
@@ -224,15 +213,14 @@ class Explosion {
           enemyTop < explosionBottom
         ) {
           enemy.destroy(j);
-          return true;
+          collided = true;
         }
 
-        // Verificar colisión con las celdas adyacentes a la explosión
         const adjacentCells = [
-          { x: explosion.x - cellSize, y: explosion.y }, // izquierda
-          { x: explosion.x + cellSize, y: explosion.y }, // derecha
-          { x: explosion.x, y: explosion.y - cellSize }, // arriba
-          { x: explosion.x, y: explosion.y + cellSize }, // abajo
+          { x: explosion.x - cellSize, y: explosion.y },
+          { x: explosion.x + cellSize, y: explosion.y },
+          { x: explosion.x, y: explosion.y - cellSize },
+          { x: explosion.x, y: explosion.y + cellSize },
         ];
 
         for (const cell of adjacentCells) {
@@ -243,11 +231,12 @@ class Explosion {
             enemyTop < cell.y + cellSize
           ) {
             enemy.destroy(enemies[j]);
+            collided = true;
           }
         }
       }
     }
-    // No hay colisiones, retornar falso
-    return false;
+
+    return collided;
   }
 }
