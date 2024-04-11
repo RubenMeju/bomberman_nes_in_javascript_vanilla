@@ -141,12 +141,31 @@ class Player {
   }
 
   placeBomb() {
-    let cellX = Math.floor(this.x / cellSize); // Calcular la celda actual en el eje X
-    let cellY = Math.floor(this.y / cellSize); // Calcular la celda actual en el eje Y
-    //console.log(cellX * cellSize, cellY * cellSize);
+    // Calcular la celda actual del jugador
+    let cellX = Math.floor(this.x / cellSize);
+    let cellY = Math.floor(this.y / cellSize);
 
-    const bomb = new Bomb(cellX * cellSize, cellY * cellSize);
+    // Calcular el offset del jugador dentro de la celda actual
+    let offsetX = this.x % cellSize;
+    let offsetY = this.y % cellSize;
+
+    // Ajustar la posición de la bomba según el offset del jugador
+    if (offsetX > cellSize / 2) {
+      cellX++;
+    }
+    if (offsetY > cellSize / 2) {
+      cellY++;
+    }
+
+    // Calcular las coordenadas reales de la celda para colocar la bomba
+    const bombX = cellX * cellSize;
+    const bombY = cellY * cellSize;
+
+    // Crear la bomba y agregarla al array de bombas del jugador
+    const bomb = new Bomb(bombX, bombY);
     this.bombs.push(bomb);
+
+    // Establecer un temporizador para destruir la bomba después de 2 segundos
     setTimeout(() => {
       this.destroyBomb(bomb); // Pasar la bomba como parámetro
     }, 2000);
