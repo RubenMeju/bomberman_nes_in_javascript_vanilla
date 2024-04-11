@@ -1,7 +1,7 @@
 function keyDownHandler(event) {
   const { key } = event;
   if (player.isAlive) {
-    console.log("keyDownHandler", key);
+    // console.log("keyDownHandler", key);
     if (key === "right" || key === "ArrowRight") {
       player.rightPress = true;
       player.direction = "right";

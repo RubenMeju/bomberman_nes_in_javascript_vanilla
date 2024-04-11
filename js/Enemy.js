@@ -215,7 +215,7 @@ class Enemy {
   }
 
   destroy(enemy) {
-    console.log("destroy: ");
+    //  console.log("destroy: ");
     this.isAlive = false;
     this.direction = "death";
     this.framesNumber = 5;
