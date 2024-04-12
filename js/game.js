@@ -35,7 +35,7 @@ function loop() {
     drawLevel();
 
     //dibujar las coordinates (para desarrollo)
-    //  drawBorderCell();
+    drawBorderCell();
 
     //dibujar las bombas
     if (player.bombs.length > 0) {
@@ -53,8 +53,6 @@ function loop() {
 
     //actualizar jugador
     player.update();
-
-    drawMagicDoor();
   }
   window.requestAnimationFrame(loop);
 }
@@ -62,16 +60,6 @@ function loop() {
 init();
 loop();
 
-function drawMagicDoor() {
-  ctx.drawImage(
-    imgSprites,
-    16 * 11,
-    16 * 3,
-    16,
-    16,
-    32,
-    32,
-    cellSize,
-    cellSize
-  );
+function drawMagicDoor(x, y) {
+  ctx.drawImage(imgSprites, 16 * 11, 16 * 3, 16, 16, x, y, cellSize, cellSize);
 }

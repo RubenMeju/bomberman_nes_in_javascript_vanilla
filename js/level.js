@@ -14,6 +14,12 @@ let level = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
+// Variable para rastrear si ya se ha asignado la puerta secreta
+let secretDoorAssigned = false;
+
+// Array para almacenar los índices de los muros con valor 2
+const secretDoorIndices = [];
+
 // Añadir cada wall a wallets
 for (let i = 0; i < level.length; i++) {
   for (let j = 0; j < level[i].length; j++) {
@@ -23,14 +29,50 @@ for (let i = 0; i < level.length; i++) {
     if (level[i][j] === 1) {
       walls.push(new Wall(posX, posY, 1));
     } else if (level[i][j] === 2) {
-      walls.push(new Wall(posX, posY, 2));
+      const wall = new Wall(posX, posY, 2);
+      walls.push(wall);
+      secretDoorIndices.push(walls.length - 1); // Almacenar el índice del muro con valor 2
     }
   }
 }
 
+// Verificar si hay muros con valor 2 para asignar aleatoriamente la puerta secreta
+if (secretDoorIndices.length > 0) {
+  // Obtener un índice aleatorio dentro del rango de secretDoorIndices
+  const randomIndex = Math.floor(Math.random() * secretDoorIndices.length);
+
+  // Obtener el índice del muro con valor 2 seleccionado aleatoriamente
+  const selectedIndex = secretDoorIndices[randomIndex];
+  console.log("que deuvleve: ", selectedIndex);
+  // Asignar la propiedad isDoorSecret al muro seleccionado
+  walls[selectedIndex].isDoorSecret = true;
+}
+
+function findSecretDoor(walls) {
+  for (let i = 0; i < walls.length; i++) {
+    if (walls[i].isDoorSecret) {
+      return i; // Retorna el índice del muro con isDoorSecret en true
+    }
+  }
+  return -1; // Retorna -1 si no encuentra ningún muro con isDoorSecret en true
+}
+
+const secretDoorIndex = findSecretDoor(walls);
+if (secretDoorIndex !== -1) {
+  console.log("Se encontró la puerta secreta en la posición:", secretDoorIndex);
+} else {
+  console.log("No se encontró ninguna puerta secreta.");
+}
+
+console.log(walls);
+
 function drawLevel() {
   walls.forEach((wall) => {
-    wall.draw();
+    if (wall.isDoorSecret && wall.isDoorSecretActive) {
+      drawMagicDoor(wall.x, wall.y);
+    } else {
+      wall.draw();
+    }
   });
 }
 

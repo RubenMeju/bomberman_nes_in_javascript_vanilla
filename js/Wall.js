@@ -2,9 +2,11 @@ class Wall {
   constructor(x, y, typeWall) {
     this.x = x;
     this.y = y;
-    this.typeWall = typeWall;
     this.frameX = 0;
     this.size = cellSize;
+    this.typeWall = typeWall;
+    this.isDoorSecret = false;
+    this.isDoorSecretActive = false;
     //animacion drawFireWall
     this.frameXfire = 16;
     this.frameYfire = 16;
@@ -91,9 +93,13 @@ class Wall {
         const targetY = y + dir.dy;
 
         if (wall.x === targetX && wall.y === targetY && wall.typeWall === 2) {
-          walls.splice(i, 1); // Eliminar la pared del arreglo
-          found = true;
-          break; // Salir del bucle de direcciones
+          if (wall.isDoorSecret) {
+            wall.isDoorSecretActive = true;
+          } else {
+            walls.splice(i, 1); // Eliminar la pared del arreglo
+            found = true;
+            break; // Salir del bucle de direcciones
+          }
         }
       }
 
