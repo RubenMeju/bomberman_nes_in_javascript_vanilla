@@ -185,6 +185,7 @@ class Player {
     //eliminar los muros colindantes
     const wall = new Wall();
     wall.destroyWall(bomb.x, bomb.y);
+    reproducirSonido("explosion");
 
     setTimeout(() => {
       const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de explosiones

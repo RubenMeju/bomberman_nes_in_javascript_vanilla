@@ -168,7 +168,9 @@ class Explosion {
         playerBottom > explosionTop &&
         playerTop < explosionBottom
       ) {
-        player.deathPlayer();
+        if (player.isAlive) {
+          player.deathPlayer();
+        }
         collided = true;
       }
 
