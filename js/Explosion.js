@@ -186,7 +186,9 @@ class Explosion {
           playerBottom > cell.y &&
           playerTop < cell.y + cellSize
         ) {
-          player.deathPlayer();
+          if (player.isAlive) {
+            player.deathPlayer();
+          }
           collided = true;
         }
       }

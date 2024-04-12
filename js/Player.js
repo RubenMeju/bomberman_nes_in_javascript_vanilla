@@ -62,6 +62,8 @@ class Player {
   update() {
     this.draw();
     this.movement();
+    this.isCollisionPlayerWithEnemies();
+
     if (this.direction === "death") {
       this.animate();
     }
@@ -80,8 +82,6 @@ class Player {
       this.size, // Ancho del frame en el canvas (tamaño de la celda)
       this.size // Alto del frame en el canvas (tamaño de la celda)
     );
-
-    this.isCollisionPlayerWithEnemies();
   }
 
   movement() {
@@ -164,7 +164,7 @@ class Player {
     // Crear la bomba y agregarla al array de bombas del jugador
     const bomb = new Bomb(bombX, bombY);
     this.bombs.push(bomb);
-
+    reproducirSonido("plantBomb");
     // Establecer un temporizador para destruir la bomba después de 2 segundos
     setTimeout(() => {
       this.destroyBomb(bomb); // Pasar la bomba como parámetro
@@ -199,7 +199,9 @@ class Player {
     for (let i = 0; i < enemies.length; i++) {
       //console.log(enemies[i]);
       if (checkCollision(player, enemies[i])) {
-        this.deathPlayer();
+        if (this.isAlive) {
+          this.deathPlayer();
+        }
       }
     }
   }
@@ -210,6 +212,7 @@ class Player {
     this.direction = "death";
     this.framesNumber = 7;
     this.animationSpeed = 12;
+    reproducirSonido("deathPlayer");
     setTimeout(() => {
       isPlaying = false;
       player = [];
