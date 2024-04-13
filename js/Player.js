@@ -125,15 +125,18 @@ class Player {
       let paredTop = walls[i].y;
       let paredBottom = walls[i].y + cellSize;
 
-      // Verificar si hay intersección entre el área del jugador y el área de la pared
-      if (
-        jugadorRight > paredLeft &&
-        jugadorLeft < paredRight &&
-        jugadorBottom > paredTop &&
-        jugadorTop < paredBottom
-      ) {
-        //console.log("Colisión detectada");
-        return true;
+      // Si la puerta No esta activa bloque el paso
+      if (!walls[i].isDoorSecretActive) {
+        // Verificar si hay intersección entre el área del jugador y el área de la pared
+        if (
+          jugadorRight > paredLeft &&
+          jugadorLeft < paredRight &&
+          jugadorBottom > paredTop &&
+          jugadorTop < paredBottom
+        ) {
+          //console.log("Colisión detectada");
+          return true;
+        }
       }
     }
 
