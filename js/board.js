@@ -1,19 +1,3 @@
-let level = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0, 0, 0],
-  [1, 0, 1, 0, 1, 0, 1, 2, 1, 2, 1, 0, 1, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 2, 1],
-  [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 0, 2, 2],
-  [1, 0, 1, 0, 1, 2, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 2, 1],
-  [1, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0],
-  [1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0, 1, 0, 1, 2, 1, 0, 1],
-  [1, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2],
-  [1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 0, 1, 0, 1, 0, 1, 2, 1],
-  [1, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2],
-  [1, 2, 1, 0, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1],
-  [1, 2, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
-
 // Variable para rastrear si ya se ha asignado la puerta secreta
 let secretDoorAssigned = false;
 
@@ -43,25 +27,10 @@ if (secretDoorIndices.length > 0) {
 
   // Obtener el índice del muro con valor 2 seleccionado aleatoriamente
   const selectedIndex = secretDoorIndices[randomIndex];
-  console.log("que deuvleve: ", selectedIndex);
+  console.log("celda con la puerta secreta: ", selectedIndex);
+  cellDoorSecret = selectedIndex;
   // Asignar la propiedad isDoorSecret al muro seleccionado
   walls[selectedIndex].isDoorSecret = true;
-}
-
-function findSecretDoor(walls) {
-  for (let i = 0; i < walls.length; i++) {
-    if (walls[i].isDoorSecret) {
-      return i; // Retorna el índice del muro con isDoorSecret en true
-    }
-  }
-  return -1; // Retorna -1 si no encuentra ningún muro con isDoorSecret en true
-}
-
-const secretDoorIndex = findSecretDoor(walls);
-if (secretDoorIndex !== -1) {
-  console.log("Se encontró la puerta secreta en la posición:", secretDoorIndex);
-} else {
-  console.log("No se encontró ninguna puerta secreta.");
 }
 
 console.log(walls);
@@ -127,3 +96,21 @@ function drawBorderCell() {
     }
   }
 }
+
+/*
+function findSecretDoor(walls) {
+  for (let i = 0; i < walls.length; i++) {
+    if (walls[i].isDoorSecret) {
+      return i; // Retorna el índice del muro con isDoorSecret en true
+    }
+  }
+  return -1; // Retorna -1 si no encuentra ningún muro con isDoorSecret en true
+}
+
+const secretDoorIndex = findSecretDoor(walls);
+if (secretDoorIndex !== -1) {
+  console.log("Se encontró la puerta secreta en la posición:", secretDoorIndex);
+} else {
+  console.log("No se encontró ninguna puerta secreta.");
+}
+*/

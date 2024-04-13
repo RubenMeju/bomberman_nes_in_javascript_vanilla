@@ -226,17 +226,6 @@ class Player {
   }
 
   animate() {
-    // Actualizar el frame de animación
-    this.frameCount++;
-    if (this.frameCount >= this.animationSpeed) {
-      this.frameCount = 0;
-      this.currentFrameIndex = (this.currentFrameIndex + 1) % this.framesNumber; // 3 es el número de frames de animación para cada dirección
-    }
-
-    // Seleccionar el frame actual basado en la dirección
-    this.frameX =
-      this.animationFrames[this.direction][this.currentFrameIndex].x;
-    this.frameY =
-      this.animationFrames[this.direction][this.currentFrameIndex].y;
+    animate.call(this); // Llama a la función de animación común
   }
 }
