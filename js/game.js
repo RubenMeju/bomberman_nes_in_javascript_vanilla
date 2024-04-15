@@ -15,7 +15,8 @@ function restartGame() {
 }
 
 function clearCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctxHub.clearRect(0, 0, canvasHub.width, canvasHub.height);
+  ctx.clearRect(0, 0, boardWidth, boardHeight);
 }
 
 function loop() {
@@ -24,6 +25,7 @@ function loop() {
   if (!isPlaying) {
     menu();
   } else {
+    drawHUD();
     //dibujar las explosiones
     if (player.explosions.length > 0) {
       player.explosions.forEach((explosion) => {

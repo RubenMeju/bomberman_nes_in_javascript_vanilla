@@ -210,6 +210,7 @@ class Enemy {
       // Encontrar el índice de la explosión dentro del array de explosiones del jugador
       let explosionIndex = enemies.indexOf(enemy);
       if (explosionIndex !== -1) {
+        playerScore += 100;
         // Si se encontró la explosión dentro del array, eliminarla
         enemies.splice(explosionIndex, 1);
       }

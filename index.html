@@ -18,19 +18,24 @@
       height: 100vh;
       margin: auto;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background-color: black;
     }
   </style>
   <body>
+    <canvas id="hub"></canvas>
+
     <canvas id="canvas"></canvas>
   </body>
 
   <script src="js/levels.js"></script>
+  <script src="./js/const.js"></script>
+
   <script src="js/utils.js"></script>
   <script src="./js/menu.js"></script>
-  <script src="./js/const.js"></script>
+  <script src="./js/hub.js"></script>
   <script src="./js/sounds.js"></script>
   <script src="./js/Controller.js"></script>
   <script src="./js/Wall.js"></script>
