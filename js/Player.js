@@ -17,6 +17,8 @@ class Player {
     this.bombs = [];
     this.explosions = [];
     this.isAlive = true;
+    this.lives = 3;
+
     // Frames de animación para cada dirección
     this.animationFrames = {
       right: [
@@ -193,6 +195,7 @@ class Player {
   }
 
   isCollisionPlayerWithEnemies() {
+    if (!this.isAlive) return;
     // Verificar colisión con cada enemy
     for (let i = 0; i < enemies.length; i++) {
       //console.log(enemies[i]);
@@ -211,11 +214,18 @@ class Player {
     this.framesNumber = 7;
     this.animationSpeed = 12;
     reproducirSonido("deathPlayer");
-    setTimeout(() => {
-      isPlaying = false;
-      player = [];
+    this.lives -= 1;
 
-      restartGame();
+    setTimeout(() => {
+      //isPlaying = false;
+      // player = [];
+      this.direction = "right";
+
+      this.framesNumber = 3;
+      this.animationSpeed = 5;
+      this.isAlive = true;
+
+      //restartGame();
     }, 900);
   }
 

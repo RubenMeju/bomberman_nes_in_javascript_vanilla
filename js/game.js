@@ -9,9 +9,11 @@ function startGame() {
 }
 
 function restartGame() {
+  /*
   player = new Player(cellSize, cellSize);
   enemies = [];
   canvas.style.backgroundColor = "black";
+  */
 }
 
 function clearCanvas() {

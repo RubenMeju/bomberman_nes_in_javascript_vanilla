@@ -40,5 +40,4 @@ let emptycoordinates = [];
 let cellDoorSecret = {};
 
 let gameTime = 200;
-let playerLives = 3;
 let playerScore = 0;

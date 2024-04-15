@@ -12,3 +12,11 @@ function menu() {
     569 // Alto del frame en el canvas (tamaño de la celda)
   );
 }
+
+function stage() {
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "white";
+
+  // Dibujar el tiempo
+  ctx.fillText("Stage: ", 1);
+}

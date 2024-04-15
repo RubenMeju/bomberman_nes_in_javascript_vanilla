@@ -14,7 +14,7 @@ function drawHUD() {
 
   // Dibujar la vida del jugador
   ctxHub.fillText(
-    "LEFT: " + playerLives,
+    "LEFT: " + player.lives,
     canvasHub.width - 100,
     canvasHub.height / 2
   );
