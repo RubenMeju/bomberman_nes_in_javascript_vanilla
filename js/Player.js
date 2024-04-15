@@ -111,32 +111,26 @@ class Player {
   }
 
   isCollisionWalls(posX, posY) {
-    // Calcular los límites del área del jugador en la nueva posición
-    let jugadorLeft = posX;
-    let jugadorRight = posX + this.size;
-    let jugadorTop = posY;
-    let jugadorBottom = posY + this.size;
+    // Crear objeto que representa al jugador en la nueva posición
+    const jugador = {
+      x: posX,
+      y: posY,
+      size: this.size,
+    };
 
     // Verificar colisión con cada pared
     for (let i = 0; i < walls.length; i++) {
-      // Calcular los límites del área de la pared
-      let paredLeft = walls[i].x;
-      let paredRight = walls[i].x + cellSize;
-      let paredTop = walls[i].y;
-      let paredBottom = walls[i].y + cellSize;
+      // Crear objeto que representa a la pared
+      const pared = {
+        x: walls[i].x,
+        y: walls[i].y,
+        size: cellSize,
+      };
 
-      // Si la puerta No esta activa bloque el paso
-      if (!walls[i].isDoorSecretActive) {
-        // Verificar si hay intersección entre el área del jugador y el área de la pared
-        if (
-          jugadorRight > paredLeft &&
-          jugadorLeft < paredRight &&
-          jugadorBottom > paredTop &&
-          jugadorTop < paredBottom
-        ) {
-          //console.log("Colisión detectada");
-          return true;
-        }
+      // Si la puerta no está activa, verificar colisión
+      if (!walls[i].isDoorSecretActive && checkCollision(jugador, pared)) {
+        // console.log("Colisión detectada");
+        return true;
       }
     }
 
