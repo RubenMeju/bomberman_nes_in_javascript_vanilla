@@ -49,7 +49,7 @@ class Explosion {
   }
 
   draw() {
-    this.checkCollisions();
+    this.checkCollisionsExplosion();
     //central
     ctx.drawImage(
       imgSprites,
@@ -147,26 +147,18 @@ class Explosion {
     this.frameYdown = this.animationFramesDown[this.currentFrameIndex].y;
   }
 
-  checkCollisions() {
+  checkCollisionsExplosion() {
     let collided = false;
 
     // Verificar colisión del jugador con explosiones y celdas adyacentes
-    const playerLeft = player.x;
-    const playerRight = player.x + player.size;
-    const playerTop = player.y;
-    const playerBottom = player.y + player.size;
-
     for (const explosion of player.explosions) {
-      const explosionLeft = explosion.x;
-      const explosionRight = explosion.x + cellSize;
-      const explosionTop = explosion.y;
-      const explosionBottom = explosion.y + cellSize;
-
+      // Verificar colisión entre jugador y explosión
       if (
-        playerRight > explosionLeft &&
-        playerLeft < explosionRight &&
-        playerBottom > explosionTop &&
-        playerTop < explosionBottom
+        checkCollision(player, {
+          x: explosion.x,
+          y: explosion.y,
+          size: cellSize,
+        })
       ) {
         if (player.isAlive) {
           player.deathPlayer();
@@ -174,6 +166,7 @@ class Explosion {
         collided = true;
       }
 
+      // Verificar colisión entre jugador y celdas adyacentes a la explosión
       const adjacentCells = [
         { x: explosion.x - cellSize, y: explosion.y },
         { x: explosion.x + cellSize, y: explosion.y },
@@ -182,12 +175,7 @@ class Explosion {
       ];
 
       for (const cell of adjacentCells) {
-        if (
-          playerRight > cell.x &&
-          playerLeft < cell.x + cellSize &&
-          playerBottom > cell.y &&
-          playerTop < cell.y + cellSize
-        ) {
+        if (checkCollision(player, { x: cell.x, y: cell.y, size: cellSize })) {
           if (player.isAlive) {
             player.deathPlayer();
           }
@@ -199,27 +187,21 @@ class Explosion {
     // Verificar colisión de enemigos con explosiones y celdas adyacentes
     for (let j = 0; j < enemies.length; j++) {
       const enemy = enemies[j];
-      const enemyLeft = enemy.x;
-      const enemyRight = enemy.x + enemy.size;
-      const enemyTop = enemy.y;
-      const enemyBottom = enemy.y + enemy.size;
 
       for (const explosion of player.explosions) {
-        const explosionLeft = explosion.x;
-        const explosionRight = explosion.x + cellSize;
-        const explosionTop = explosion.y;
-        const explosionBottom = explosion.y + cellSize;
-
+        // Verificar colisión entre enemigo y explosión
         if (
-          enemyRight > explosionLeft &&
-          enemyLeft < explosionRight &&
-          enemyBottom > explosionTop &&
-          enemyTop < explosionBottom
+          checkCollision(enemy, {
+            x: explosion.x,
+            y: explosion.y,
+            size: cellSize,
+          })
         ) {
           enemy.destroy(j);
           collided = true;
         }
 
+        // Verificar colisión entre enemigo y celdas adyacentes a la explosión
         const adjacentCells = [
           { x: explosion.x - cellSize, y: explosion.y },
           { x: explosion.x + cellSize, y: explosion.y },
@@ -228,12 +210,7 @@ class Explosion {
         ];
 
         for (const cell of adjacentCells) {
-          if (
-            enemyRight > cell.x &&
-            enemyLeft < cell.x + cellSize &&
-            enemyBottom > cell.y &&
-            enemyTop < cell.y + cellSize
-          ) {
+          if (checkCollision(enemy, { x: cell.x, y: cell.y, size: cellSize })) {
             enemy.destroy(enemies[j]);
             collided = true;
           }
