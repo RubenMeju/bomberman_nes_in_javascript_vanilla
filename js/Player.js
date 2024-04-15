@@ -211,8 +211,7 @@ class Player {
     console.log("deathPlayer: ");
     this.isAlive = false;
     this.direction = "death";
-    this.framesNumber = 7;
-    this.animationSpeed = 12;
+
     reproducirSonido("deathPlayer");
     this.lives -= 1;
 
@@ -221,12 +220,16 @@ class Player {
       // player = [];
       this.direction = "right";
 
-      this.framesNumber = 3;
-      this.animationSpeed = 5;
+      player.animate();
       this.isAlive = true;
 
+      // para volver a reproducir el audio de stage
+      soundPlayed = false;
+      // Volver a mostrar la pantalla info Stage
+      canvas.style.backgroundColor = "black";
+      gameState = GAME_STATES.LEVEL_START;
       //restartGame();
-    }, 900);
+    }, 1200);
   }
 
   animate() {
