@@ -57,34 +57,10 @@ function loop() {
     case GAME_STATES.GAMEPLAY:
       // Lógica del juego principal
       drawHUD();
-      //dibujar las explosiones
-      if (player.explosions.length > 0) {
-        player.explosions.forEach((explosion) => {
-          explosion.draw(explosion.x, explosion.y);
-        });
-      }
-
-      //dibujar nivel
+      updateExplosions();
       drawLevel();
-
-      //dibujar las coordinates (para desarrollo)
-      // drawBorderCell();
-
-      //dibujar las bombas
-      if (player.bombs.length > 0) {
-        player.bombs.forEach((bomb) => {
-          bomb.draw(bomb.x, bomb.y);
-        });
-      }
-
-      // Enemigos
-      if (totalEnemies > 0) {
-        enemies.forEach((enemy) => {
-          enemy.update();
-        });
-      }
-
-      //actualizar jugador
+      updateBombs();
+      updateEnemies();
       player.update();
       break;
   }
@@ -98,7 +74,7 @@ function drawMagicDoor(x, y) {
   ctx.drawImage(imgSprites, 16 * 11, 16 * 3, 16, 16, x, y, cellSize, cellSize);
 }
 
-// Dibuja la puntuación y la vida en la parte superior del lienzo
+// Pantalla para mostrar el nivel del juego
 function drawScreenStage() {
   //canvasHub.style.backgroundColor = "gray";
 
@@ -106,4 +82,27 @@ function drawScreenStage() {
   ctx.fillStyle = "white";
 
   ctx.fillText("Stage: 1", boardWidth / 2, boardHeight / 3);
+}
+
+function updateExplosions() {
+  if (player.explosions.length > 0) {
+    player.explosions.forEach((explosion) => {
+      explosion.draw(explosion.x, explosion.y);
+    });
+  }
+}
+function updateBombs() {
+  if (player.bombs.length > 0) {
+    player.bombs.forEach((bomb) => {
+      bomb.draw(bomb.x, bomb.y);
+    });
+  }
+}
+
+function updateEnemies() {
+  if (totalEnemies > 0) {
+    enemies.forEach((enemy) => {
+      enemy.update();
+    });
+  }
 }
