@@ -31,7 +31,7 @@ let walls = [];
 
 // Enemigos
 let enemies = [];
-let totalEnemies = 6;
+let totalEnemies = 2;
 
 let isPlaying = false;
 

@@ -28,7 +28,7 @@ if (secretDoorIndices.length > 0) {
   // Obtener el índice del muro con valor 2 seleccionado aleatoriamente
   const selectedIndex = secretDoorIndices[randomIndex];
   console.log("celda con la puerta secreta: ", selectedIndex);
-  cellDoorSecret = selectedIndex;
+  cellDoorSecret = walls[selectedIndex];
   // Asignar la propiedad isDoorSecret al muro seleccionado
   walls[selectedIndex].isDoorSecret = true;
 }

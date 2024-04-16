@@ -1,6 +1,5 @@
 // Dibuja la puntuación y la vida en la parte superior del lienzo
 function drawHUD() {
-  console.log("Drawing HUD...");
   canvasHub.style.backgroundColor = "gray";
 
   ctxHub.font = "20px Arial";

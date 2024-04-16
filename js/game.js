@@ -57,6 +57,9 @@ function loop() {
       updateEnemies();
       player.update();
 
+      if (enemies.length === 0) {
+        collisionInMagicDoor();
+      }
       break;
 
     case GAME_STATES.GAMEOVER:
@@ -73,10 +76,6 @@ function loop() {
 init();
 loop();
 
-function drawMagicDoor(x, y) {
-  ctx.drawImage(imgSprites, 16 * 11, 16 * 3, 16, 16, x, y, cellSize, cellSize);
-}
-
 // Pantalla para mostrar el nivel del juego
 function drawScreenStage() {
   ctx.font = "32px Arial";
@@ -84,7 +83,7 @@ function drawScreenStage() {
   ctx.fillText("Stage: 1", boardWidth / 2, boardHeight / 3);
 }
 
-// Pantalla para mostrar el nivel del juego
+// Pantalla para mostrar el game over
 function drawScreenGameOver() {
   ctx.font = "32px Arial";
   ctx.fillStyle = "white";
@@ -111,5 +110,22 @@ function updateEnemies() {
     enemies.forEach((enemy) => {
       enemy.update();
     });
+  }
+}
+
+//dibujar la puerta magica
+function drawMagicDoor(x, y) {
+  ctx.drawImage(imgSprites, 16 * 11, 16 * 3, 16, 16, x, y, cellSize, cellSize);
+}
+
+function collisionInMagicDoor() {
+  if (checkCollision(player, cellDoorSecret)) {
+    console.log("Has pasado el nivel!!!");
+    //  reproducirSonido("levelComplete");
+    /*
+    setTimeout(() => {
+      gameState = GAME_STATES.LEVEL_START;
+    }, 2000);
+    */
   }
 }

@@ -1,11 +1,4 @@
 function animate() {
-  if (this.direction === "death") {
-    this.framesNumber = 7;
-    this.animationSpeed = 12;
-  } else {
-    this.framesNumber = 3;
-    this.animationSpeed = 5;
-  }
   this.frameCount++;
   if (this.frameCount >= this.animationSpeed) {
     this.frameCount = 0;
