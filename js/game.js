@@ -3,6 +3,7 @@ const GAME_STATES = {
   MENU: 0,
   LEVEL_START: 1,
   GAMEPLAY: 2,
+  GAMEOVER: 3,
 };
 
 let gameState = GAME_STATES.MENU; // Estado inicial del juego
@@ -26,21 +27,14 @@ function clearCanvas() {
 function loop() {
   //limpiar canvas
   clearCanvas();
-  console.log("direccion: " + player.direction);
   switch (gameState) {
     case GAME_STATES.MENU:
-      // Lógica del menú de inicio
-      console.log("Pantalla Menu");
       if (!isPlaying) {
         menu();
       }
       break;
 
     case GAME_STATES.LEVEL_START:
-      // Lógica de inicio del nivel (por ejemplo, mostrar texto de nivel)
-      // Transición automática al estado de juego después de un breve período
-      console.log("Pantalla stage");
-
       if (!soundPlayed) {
         reproducirSonido("stage");
         soundPlayed = true; // Establecer la bandera en true para indicar que el sonido ha sido reproducido
@@ -51,18 +45,27 @@ function loop() {
       player.y = cellSize;
       setTimeout(() => {
         canvas.style.backgroundColor = "#2e8b00"; // cambiar color del canvas a verde
+        player.isPlaying = false;
         gameState = GAME_STATES.GAMEPLAY;
-      }, 3000); // Transición después de 3 segundos (ejemplo)
+      }, 3000);
       break;
     case GAME_STATES.GAMEPLAY:
-      // Lógica del juego principal
       drawHUD();
       updateExplosions();
       drawLevel();
       updateBombs();
       updateEnemies();
       player.update();
+
       break;
+
+    case GAME_STATES.GAMEOVER:
+      drawScreenGameOver();
+      setTimeout(() => {
+        isPlaying = false;
+        player.lives = 3;
+        gameState = GAME_STATES.MENU;
+      }, 3000);
   }
   window.requestAnimationFrame(loop);
 }
@@ -76,12 +79,16 @@ function drawMagicDoor(x, y) {
 
 // Pantalla para mostrar el nivel del juego
 function drawScreenStage() {
-  //canvasHub.style.backgroundColor = "gray";
-
   ctx.font = "32px Arial";
   ctx.fillStyle = "white";
-
   ctx.fillText("Stage: 1", boardWidth / 2, boardHeight / 3);
+}
+
+// Pantalla para mostrar el nivel del juego
+function drawScreenGameOver() {
+  ctx.font = "32px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("GAME OVER", boardWidth / 2, boardHeight / 3);
 }
 
 function updateExplosions() {

@@ -17,7 +17,7 @@ class Player {
     this.bombs = [];
     this.explosions = [];
     this.isAlive = true;
-    this.lives = 3;
+    this.lives = 2;
 
     // Frames de animación para cada dirección
     this.animationFrames = {
@@ -227,7 +227,14 @@ class Player {
       soundPlayed = false;
       // Volver a mostrar la pantalla info Stage
       canvas.style.backgroundColor = "black";
-      gameState = GAME_STATES.LEVEL_START;
+      canvasHub.style.backgroundColor = "black";
+
+      if (player.lives > 0) {
+        gameState = GAME_STATES.LEVEL_START;
+      } else {
+        console.log("No te quedan vidas");
+        gameState = GAME_STATES.GAMEOVER;
+      }
       //restartGame();
     }, 1200);
   }
