@@ -1,16 +1,10 @@
-// Definir los estados del juego
-const GAME_STATES = {
-  MENU: 0,
-  LEVEL_START: 1,
-  GAMEPLAY: 2,
-  GAMEOVER: 3,
-};
-
 let gameState = GAME_STATES.MENU; // Estado inicial del juego
 let soundPlayed = false;
 let player = new Player(cellSize, cellSize);
 
 function startGame() {
+  createWalls();
+
   emptycoordinates = getEmptyCellCoordinates();
   createEnemies();
 

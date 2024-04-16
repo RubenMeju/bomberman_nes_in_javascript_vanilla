@@ -26,6 +26,14 @@ canvas.height = rows * cellSize;
 const boardWidth = columns * cellSize;
 const boardHeight = rows * cellSize;
 
+// Definir los estados del juego
+const GAME_STATES = {
+  MENU: 0,
+  LEVEL_START: 1,
+  GAMEPLAY: 2,
+  GAMEOVER: 3,
+};
+
 // Bloques
 let walls = [];
 

@@ -4,45 +4,37 @@ let secretDoorAssigned = false;
 // Array para almacenar los índices de los muros con valor 2
 const secretDoorIndices = [];
 
-// Añadir cada wall a wallets
-for (let i = 0; i < level.length; i++) {
-  for (let j = 0; j < level[i].length; j++) {
-    const posX = j * cellSize;
-    const posY = i * cellSize;
+function createWalls() {
+  // Añadir cada wall a wallets
+  for (let i = 0; i < level.length; i++) {
+    for (let j = 0; j < level[i].length; j++) {
+      const posX = j * cellSize;
+      const posY = i * cellSize;
 
-    if (level[i][j] === 1) {
-      walls.push(new Wall(posX, posY, 1));
-    } else if (level[i][j] === 2) {
-      const wall = new Wall(posX, posY, 2);
-      walls.push(wall);
-      secretDoorIndices.push(walls.length - 1); // Almacenar el índice del muro con valor 2
+      if (level[i][j] === 1) {
+        walls.push(new Wall(posX, posY, 1));
+      } else if (level[i][j] === 2) {
+        const wall = new Wall(posX, posY, 2);
+        walls.push(wall);
+        secretDoorIndices.push(walls.length - 1); // Almacenar el índice del muro con valor 2
+      }
     }
   }
-}
 
-// Verificar si hay muros con valor 2 para asignar aleatoriamente la puerta secreta
-if (secretDoorIndices.length > 0) {
-  // Obtener un índice aleatorio dentro del rango de secretDoorIndices
-  const randomIndex = Math.floor(Math.random() * secretDoorIndices.length);
+  // Verificar si hay muros con valor 2 para asignar aleatoriamente la puerta secreta
+  if (secretDoorIndices.length > 0) {
+    // Obtener un índice aleatorio dentro del rango de secretDoorIndices
+    const randomIndex = Math.floor(Math.random() * secretDoorIndices.length);
 
-  // Obtener el índice del muro con valor 2 seleccionado aleatoriamente
-  const selectedIndex = secretDoorIndices[randomIndex];
-  console.log("celda con la puerta secreta: ", selectedIndex);
-  cellDoorSecret = walls[selectedIndex];
-  // Asignar la propiedad isDoorSecret al muro seleccionado
-  walls[selectedIndex].isDoorSecret = true;
-}
+    // Obtener el índice del muro con valor 2 seleccionado aleatoriamente
+    const selectedIndex = secretDoorIndices[randomIndex];
+    console.log("celda con la puerta secreta: ", selectedIndex);
+    cellDoorSecret = walls[selectedIndex];
+    // Asignar la propiedad isDoorSecret al muro seleccionado
+    walls[selectedIndex].isDoorSecret = true;
+  }
 
-console.log(walls);
-
-function drawLevel() {
-  walls.forEach((wall) => {
-    if (wall.isDoorSecret && wall.isDoorSecretActive) {
-      drawMagicDoor(wall.x, wall.y);
-    } else {
-      wall.draw();
-    }
-  });
+  console.log(walls);
 }
 
 function getEmptyCellCoordinates() {
@@ -73,6 +65,16 @@ function createEnemies() {
 
     enemies.push(new Enemy(enemyX, enemyY));
   }
+}
+
+function drawLevel() {
+  walls.forEach((wall) => {
+    if (wall.isDoorSecret && wall.isDoorSecretActive) {
+      drawMagicDoor(wall.x, wall.y);
+    } else {
+      wall.draw();
+    }
+  });
 }
 
 // para desarrollo (muestra los px de cada celda)
