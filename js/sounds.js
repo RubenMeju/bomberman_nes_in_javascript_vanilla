@@ -7,8 +7,18 @@ const sonidos = {
 
   deathPlayer: new Audio("../sounds/deathPlayer.mp3"),
 };
+// Objeto para almacenar el tiempo del último sonido reproducido
+var lastSoundTime = {};
 
 function reproducirSonido(nombre) {
-  sonidos[nombre].currentTime = 0; // Reiniciar el sonido si ya está reproduciéndose
-  sonidos[nombre].play();
+  const now = Date.now(); // Obtener el tiempo actual
+  const delay = 300; // Establecer el tiempo mínimo entre cada reproducción en milisegundos (ajustar según sea necesario)
+
+  // Verificar si ha pasado el tiempo suficiente desde la última reproducción del mismo sonido
+  if (!lastSoundTime[nombre] || now - lastSoundTime[nombre] > delay) {
+    sonidos[nombre].loop = false;
+    sonidos[nombre].currentTime = 0; // Reiniciar el sonido si ya está reproduciéndose
+    sonidos[nombre].play();
+    lastSoundTime[nombre] = now; // Actualizar el tiempo del último sonido reproducido
+  }
 }

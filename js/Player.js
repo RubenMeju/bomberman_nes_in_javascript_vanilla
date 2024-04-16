@@ -93,15 +93,19 @@ class Player {
       if (this.rightPress && this.direction === "right") {
         newPos.x += this.speed;
         this.animate();
+        reproducirSonido("walk");
       } else if (this.leftPress && this.direction === "left") {
         newPos.x -= this.speed;
         this.animate();
+        reproducirSonido("walk");
       } else if (this.upPress && this.direction === "up") {
         newPos.y -= this.speed;
         this.animate();
+        reproducirSonido("walk");
       } else if (this.downPress && this.direction === "down") {
         newPos.y += this.speed;
         this.animate();
+        reproducirSonido("walk");
       }
 
       if (!this.isCollisionWalls(newPos.x, newPos.y)) {
