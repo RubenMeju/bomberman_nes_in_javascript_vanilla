@@ -93,19 +93,19 @@ class Player {
       if (this.rightPress && this.direction === "right") {
         newPos.x += this.speed;
         this.animate();
-        reproducirSonido("walk");
+        playSound("walk");
       } else if (this.leftPress && this.direction === "left") {
         newPos.x -= this.speed;
         this.animate();
-        reproducirSonido("walk");
+        playSound("walk");
       } else if (this.upPress && this.direction === "up") {
         newPos.y -= this.speed;
         this.animate();
-        reproducirSonido("walk");
+        playSound("walk");
       } else if (this.downPress && this.direction === "down") {
         newPos.y += this.speed;
         this.animate();
-        reproducirSonido("walk");
+        playSound("walk");
       }
 
       if (!this.isCollisionWalls(newPos.x, newPos.y)) {
@@ -167,7 +167,7 @@ class Player {
     // Crear la bomba y agregarla al array de bombas del jugador
     const bomb = new Bomb(bombX, bombY);
     this.bombs.push(bomb);
-    reproducirSonido("plantBomb");
+    playSound("plantBomb");
     // Establecer un temporizador para destruir la bomba después de 2 segundos
     setTimeout(() => {
       this.destroyBomb(bomb); // Pasar la bomba como parámetro
@@ -188,7 +188,7 @@ class Player {
     //eliminar los muros colindantes
     const wall = new Wall();
     wall.destroyWall(bomb.x, bomb.y);
-    reproducirSonido("explosion");
+    playSound("explosion");
 
     setTimeout(() => {
       const explosionIndex = this.explosions.indexOf(explosion); // Usar this.explosions para acceder al arreglo de explosiones
@@ -216,7 +216,7 @@ class Player {
     this.isAlive = false;
     this.direction = "death";
 
-    reproducirSonido("deathPlayer");
+    playSound("deathPlayer");
     this.lives -= 1;
 
     setTimeout(() => {

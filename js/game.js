@@ -36,7 +36,7 @@ function loop() {
 
     case GAME_STATES.LEVEL_START:
       if (!soundPlayed) {
-        reproducirSonido("stage");
+        playSound("stage");
         soundPlayed = true; // Establecer la bandera en true para indicar que el sonido ha sido reproducido
       }
 
@@ -121,7 +121,7 @@ function drawMagicDoor(x, y) {
 function collisionInMagicDoor() {
   if (checkCollision(player, cellDoorSecret)) {
     console.log("Has pasado el nivel!!!");
-    //  reproducirSonido("levelComplete");
+    //  playSound("levelComplete");
     /*
     setTimeout(() => {
       gameState = GAME_STATES.LEVEL_START;

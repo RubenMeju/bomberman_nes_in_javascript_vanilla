@@ -10,7 +10,7 @@ const sonidos = {
 // Objeto para almacenar el tiempo del último sonido reproducido
 var lastSoundTime = {};
 
-function reproducirSonido(nombre) {
+function playSound(nombre) {
   const now = Date.now(); // Obtener el tiempo actual
   const delay = 300; // Establecer el tiempo mínimo entre cada reproducción en milisegundos (ajustar según sea necesario)
 
