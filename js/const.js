@@ -34,6 +34,7 @@ const GAME_STATES = {
   GAMEOVER: 3,
 };
 
+let currentLevel = level1;
 // Bloques
 let walls = [];
 

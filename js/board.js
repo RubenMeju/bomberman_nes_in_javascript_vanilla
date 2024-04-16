@@ -6,14 +6,14 @@ const secretDoorIndices = [];
 
 function createWalls() {
   // Añadir cada wall a wallets
-  for (let i = 0; i < level.length; i++) {
-    for (let j = 0; j < level[i].length; j++) {
+  for (let i = 0; i < currentLevel.length; i++) {
+    for (let j = 0; j < currentLevel[i].length; j++) {
       const posX = j * cellSize;
       const posY = i * cellSize;
 
-      if (level[i][j] === 1) {
+      if (currentLevel[i][j] === 1) {
         walls.push(new Wall(posX, posY, 1));
-      } else if (level[i][j] === 2) {
+      } else if (currentLevel[i][j] === 2) {
         const wall = new Wall(posX, posY, 2);
         walls.push(wall);
         secretDoorIndices.push(walls.length - 1); // Almacenar el índice del muro con valor 2
@@ -39,12 +39,12 @@ function createWalls() {
 
 function getEmptyCellCoordinates() {
   const coordinates = [];
-  for (let i = 0; i < level.length; i++) {
-    for (let j = 0; j < level[i].length; j++) {
+  for (let i = 0; i < currentLevel.length; i++) {
+    for (let j = 0; j < currentLevel[i].length; j++) {
       let cellX = j * cellSize;
       let cellY = i * cellSize;
 
-      if (level[i][j] === 0) {
+      if (currentLevel[i][j] === 0) {
         coordinates.push({ x: cellX, y: cellY });
       }
     }
@@ -80,8 +80,8 @@ function drawLevel() {
 // para desarrollo (muestra los px de cada celda)
 function drawBorderCell() {
   // Coordenadas del cuadrado
-  for (let i = 0; i < level.length; i++) {
-    for (let j = 0; j < level[i].length; j++) {
+  for (let i = 0; i < currentLevel.length; i++) {
+    for (let j = 0; j < currentLevel[i].length; j++) {
       const posX = j * cellSize;
       const posY = i * cellSize;
       // Dibujar el borde del cuadrado
