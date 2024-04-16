@@ -74,7 +74,7 @@ loop();
 function drawScreenStage() {
   ctx.font = "32px Arial";
   ctx.fillStyle = "white";
-  ctx.fillText("Stage: 1", boardWidth / 2, boardHeight / 3);
+  ctx.fillText("Stage: " + currentLevel + 1, boardWidth / 2, boardHeight / 3);
 }
 
 // Pantalla para mostrar el game over
@@ -115,6 +115,10 @@ function drawMagicDoor(x, y) {
 function collisionInMagicDoor() {
   if (checkCollision(player, cellDoorSecret)) {
     console.log("Has pasado el nivel!!!");
+
+    currentLevel += 1;
+    startGame();
+
     //  playSound("levelComplete");
     /*
     setTimeout(() => {
