@@ -5,7 +5,7 @@ const sonidos = {
   walk: new Audio("../sounds/walk.mp3"),
   plantBomb: new Audio("../sounds/plantBomb.mp3"),
   explosion: new Audio("../sounds/explosion.mp3"),
-
+  doorFound: new Audio("../sounds/doorFound.mp3"),
   deathPlayer: new Audio("../sounds/deathPlayer.mp3"),
 };
 // Objeto para almacenar el tiempo del último sonido reproducido

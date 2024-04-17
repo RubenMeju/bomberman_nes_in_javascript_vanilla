@@ -94,6 +94,9 @@ class Wall {
 
         if (wall.x === targetX && wall.y === targetY && wall.typeWall === 2) {
           if (wall.isDoorSecret) {
+            if (!wall.isDoorSecretActive) {
+              playSound("doorFound");
+            }
             wall.isDoorSecretActive = true;
           } else {
             walls.splice(i, 1); // Eliminar la pared del arreglo
