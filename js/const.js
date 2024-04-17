@@ -40,7 +40,7 @@ let walls = [];
 
 // Enemigos
 let enemies = [];
-let totalEnemies = 2;
+let totalEnemies = 6;
 
 let isPlaying = false;
 
