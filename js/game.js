@@ -3,6 +3,7 @@ let soundPlayed = false;
 let player = new Player(cellSize, cellSize);
 
 function startGame() {
+  restartGame();
   createWalls();
 
   emptycoordinates = getEmptyCellCoordinates();
@@ -11,6 +12,18 @@ function startGame() {
   isPlaying = true;
 
   gameState = GAME_STATES.LEVEL_START;
+}
+
+function restartGame() {
+  currentLevel = 0;
+  walls = [];
+  enemies = [];
+  totalEnemies = 2;
+  isPlaying = false;
+  emptycoordinates = [];
+  cellDoorSecret = {};
+  gameTime = 200;
+  playerScore = 0;
 }
 
 function clearCanvas() {
@@ -37,6 +50,7 @@ function loop() {
       drawScreenStage();
       player.x = cellSize;
       player.y = cellSize;
+
       setTimeout(() => {
         canvas.style.backgroundColor = "#2e8b00"; // cambiar color del canvas a verde
         player.isPlaying = false;
@@ -117,13 +131,12 @@ function collisionInMagicDoor() {
     console.log("Has pasado el nivel!!!");
 
     currentLevel += 1;
-    startGame();
+    // startGame();
 
     //  playSound("levelComplete");
-    /*
+
     setTimeout(() => {
       gameState = GAME_STATES.LEVEL_START;
     }, 2000);
-    */
   }
 }
