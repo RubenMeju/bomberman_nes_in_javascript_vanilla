@@ -42,6 +42,7 @@ function loop() {
       break;
 
     case GAME_STATES.LEVEL_START:
+      canvas.style.backgroundColor = "black";
       if (!soundPlayed) {
         playSound("stage");
         soundPlayed = true; // Establecer la bandera en true para indicar que el sonido ha sido reproducido
@@ -96,7 +97,8 @@ loop();
 function drawScreenStage() {
   ctx.font = "32px Arial";
   ctx.fillStyle = "white";
-  ctx.fillText("Stage: " + currentLevel + 1, boardWidth / 2, boardHeight / 3);
+  ctx.fillText("Stage: ", boardWidth / 2.4, boardHeight / 3);
+  ctx.fillText(currentLevel + 1, boardWidth / 2, boardHeight / 3);
 }
 
 // Pantalla para mostrar el game over
