@@ -71,7 +71,12 @@ function loop() {
       break;
 
     case GAME_STATES.GAMEOVER:
+      if (!soundFlag) {
+        playSound("gameOver");
+        soundFlag = true;
+      }
       drawScreenGameOver();
+
       setTimeout(() => {
         isPlaying = false;
         player.lives = 3;
@@ -81,7 +86,7 @@ function loop() {
   console.log(currentLevel);
   window.requestAnimationFrame(loop);
 }
-
+let soundFlag = false;
 init();
 loop();
 

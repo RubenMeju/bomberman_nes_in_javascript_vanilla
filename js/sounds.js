@@ -1,6 +1,7 @@
 const sonidos = {
   stage: new Audio("../sounds/stage.mp3"),
   levelComplete: new Audio("../sounds/levelComplete.mp3"),
+  gameOver: new Audio("../sounds/gameOver.mp3"),
   walk: new Audio("../sounds/walk.mp3"),
   plantBomb: new Audio("../sounds/plantBomb.mp3"),
   explosion: new Audio("../sounds/explosion.mp3"),
