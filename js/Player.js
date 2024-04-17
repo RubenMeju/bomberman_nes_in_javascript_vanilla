@@ -90,7 +90,11 @@ class Player {
     if (this.direction !== "death") {
       let newPos = { x: this.x, y: this.y }; // Nueva posición del jugador
 
-      if (this.rightPress && this.direction === "right") {
+      if (
+        this.rightPress &&
+        this.direction === "right" &&
+        this.x + this.size < boardWidth
+      ) {
         newPos.x += this.speed;
         this.animate();
         playSound("walk");
