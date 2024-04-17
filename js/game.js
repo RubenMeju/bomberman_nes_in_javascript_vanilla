@@ -3,7 +3,7 @@ let soundPlayed = false;
 let player = new Player(cellSize, cellSize);
 
 function startGame() {
-  restartGame();
+  //restartGame();
   createWalls();
 
   emptycoordinates = getEmptyCellCoordinates();
@@ -53,7 +53,7 @@ function loop() {
 
       setTimeout(() => {
         canvas.style.backgroundColor = "#2e8b00"; // cambiar color del canvas a verde
-        player.isPlaying = false;
+        //  player.isPlaying = true;
         gameState = GAME_STATES.GAMEPLAY;
       }, 3000);
       break;
@@ -78,6 +78,7 @@ function loop() {
         gameState = GAME_STATES.MENU;
       }, 3000);
   }
+  console.log(currentLevel);
   window.requestAnimationFrame(loop);
 }
 
@@ -126,17 +127,21 @@ function drawMagicDoor(x, y) {
   ctx.drawImage(imgSprites, 16 * 11, 16 * 3, 16, 16, x, y, cellSize, cellSize);
 }
 
+let magicDoorCollisionHandled = false; //bandera
+
 function collisionInMagicDoor() {
-  if (checkCollision(player, cellDoorSecret)) {
-    console.log("Has pasado el nivel!!!");
-
-    currentLevel += 1;
-    // startGame();
-
-    //  playSound("levelComplete");
-
+  if (checkCollision(player, cellDoorSecret) && !magicDoorCollisionHandled) {
+    magicDoorCollisionHandled = true; // Marcar la colisión como manejada para evitar bucles
+    levelComplete();
     setTimeout(() => {
+      startGame();
       gameState = GAME_STATES.LEVEL_START;
     }, 2000);
   }
+}
+
+function levelComplete() {
+  console.log("Has pasado el nivel!!!");
+  playSound("levelComplete");
+  currentLevel = 1;
 }
