@@ -89,25 +89,24 @@ class Enemy {
         break;
     }
 
-    // Verificar si el nuevo movimiento está dentro de los límites del tablero
-    if (
-      newX >= 0 &&
-      newX + this.size <= boardWidth &&
-      newY >= 0 &&
-      newY + this.size <= boardHeight &&
-      !this.isCollisionWalls(newX, this.y) &&
-      !this.isCollisionWalls(this.x, newY)
-    ) {
+    // Verificar si el nuevo movimiento causa una colisión
+    if (!this.isCollisionWalls() && newX + this.size <= boardWidth) {
       this.x = newX;
       this.y = newY;
+      // Verificar colision con las bombas
+      if (this.isCollisionEnemyWithbombs()) {
+        if (this.direction == "left") {
+          this.direction = "right";
+        } else if (this.direction == "right") {
+          this.direction = "left";
+        } else if (this.direction == "up") {
+          this.direction = "down";
+        } else if (this.direction == "down") {
+          this.direction = "up";
+        }
+      }
     } else {
-      // Si hay colisión o el movimiento excede los límites del tablero, cambiar la dirección aleatoriamente
-      this.changeDirectionRandomly();
-    }
-
-    // Verificar colisión con las bombas
-    if (this.isCollisionEnemyWithbombs()) {
-      // Cambiar la dirección del enemigo
+      // Cambiar la dirección aleatoriamente si hay colisión
       this.changeDirectionRandomly();
     }
   }
