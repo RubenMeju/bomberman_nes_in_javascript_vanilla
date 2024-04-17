@@ -3,7 +3,6 @@ let soundPlayed = false;
 let player = new Player(cellSize, cellSize);
 
 function startGame() {
-  //restartGame();
   createWalls();
 
   emptycoordinates = getEmptyCellCoordinates();
@@ -24,6 +23,7 @@ function restartGame() {
   cellDoorSecret = {};
   gameTime = 200;
   playerScore = 0;
+  soundFlag = false;
 }
 
 function clearCanvas() {
@@ -80,6 +80,8 @@ function loop() {
       setTimeout(() => {
         isPlaying = false;
         player.lives = 3;
+        restartGame();
+
         gameState = GAME_STATES.MENU;
       }, 3000);
   }
